@@ -1,0 +1,314 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>（第六节）操作系统--换入\换出（用空间和时间换虚存） | Qidangge的小小世界</title><meta name="keywords" content="操作系统,虚拟内存"><meta name="author" content="Qidangge"><meta name="copyright" content="Qidangge"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本篇文章用于记录操作系统学习中有关内存换入、换出的相关知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（第六节）操作系统--换入\换出（用空间和时间换虚存）">
+<meta property="og:url" content="https://qidangge.github.io/2022/09/12/%EF%BC%88%E7%AC%AC%E5%85%AD%E8%8A%82%EF%BC%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F--%E6%8D%A2%E5%85%A5_%E6%8D%A2%E5%87%BA%EF%BC%88%E7%94%A8%E7%A9%BA%E9%97%B4%E5%92%8C%E6%97%B6%E9%97%B4%E6%8D%A2%E8%99%9A%E5%AD%98%EF%BC%89/index.html">
+<meta property="og:site_name" content="Qidangge的小小世界">
+<meta property="og:description" content="本篇文章用于记录操作系统学习中有关内存换入、换出的相关知识。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg">
+<meta property="article:published_time" content="2022-09-12T04:08:33.327Z">
+<meta property="article:modified_time" content="2022-09-12T04:08:36.215Z">
+<meta property="article:author" content="Qidangge">
+<meta property="article:tag" content="操作系统">
+<meta property="article:tag" content="虚拟内存">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://qidangge.github.io/2022/09/12/%EF%BC%88%E7%AC%AC%E5%85%AD%E8%8A%82%EF%BC%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F--%E6%8D%A2%E5%85%A5_%E6%8D%A2%E5%87%BA%EF%BC%88%E7%94%A8%E7%A9%BA%E9%97%B4%E5%92%8C%E6%97%B6%E9%97%B4%E6%8D%A2%E8%99%9A%E5%AD%98%EF%BC%89/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Qidangge","link":"链接: ","source":"来源: Qidangge的小小世界","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '（第六节）操作系统--换入\换出（用空间和时间换虚存）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-09-12 12:08:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">64</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">71</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">29</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Qidangge的小小世界</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">（第六节）操作系统--换入\换出（用空间和时间换虚存）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-09-12T04:08:33.327Z" title="发表于 2022-09-12 12:08:33">2022-09-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-09-12T04:08:36.215Z" title="更新于 2022-09-12 12:08:36">2022-09-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%93%E9%A2%98/">操作系统专题</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="（第六节）操作系统--换入\换出（用空间和时间换虚存）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p><strong>写在最前面</strong></p>
+<blockquote>
+<p>前面在<strong>内存管理部分</strong>我们介绍了<strong>地址翻译</strong>的相关知识，即通过<strong>段基址和偏移</strong>获取<strong>虚拟地址</strong>，而后通过虚拟地址获取到<strong>物理地址</strong>。<code>虚拟内存</code>作为<strong>中转区域</strong>完成<strong>段页结合机制</strong>，同时<strong>32位逻辑地址</strong>可以定位到一个<strong>4G大小的区域</strong>，而这也是<strong>虚拟内存的标准大小</strong>，换句话说，<strong>每一个进程都对应一个虚拟内存且其大小为4G</strong>。<br>但是虚拟内存毕竟是虚拟的，只有将其<strong>与物理页框映射</strong>才可以落实到具体的硬件存储中。这就<strong>导致一个问题</strong>：<code>虚拟内存太大了而实际物理内存太小</code>，使得物理内存无法与所有的虚拟内存完成映射。因此，采取<strong>换入、换出机制</strong>，<code>使用磁盘和时间换取空间</code>。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><code>换入</code>：<strong>用户在访问某个虚拟内存时，如果此虚拟内存没有与物理内存关联，就立马从磁盘上读取内容并建立关联</strong>。<br><code>换出</code>：<strong>将物理内存上的部分内容移到磁盘中并和虚拟内存解除关联。</strong></p>
+</blockquote>
+</blockquote>
+<p><strong>注</strong>：<a target="_blank" rel="noopener" href="https://book.douban.com/subject/30391722/">文章内容参考《操作系统原理 实现、与实践》</a>，所用图片来自<strong>书配图与网络</strong>，仅用于<strong>个人学习</strong>使用。</p>
+<h1 id="规整的虚拟内存"><a href="#规整的虚拟内存" class="headerlink" title="规整的虚拟内存"></a>规整的虚拟内存</h1><h2 id="基本概念介绍"><a href="#基本概念介绍" class="headerlink" title="基本概念介绍"></a>基本概念介绍</h2><blockquote>
+<p>什么叫规整？</p>
+</blockquote>
+<p><code>规整</code>是一个<strong>形容词</strong>，在这里是说<strong>每一个进程对应的虚拟内存都有相同的大小</strong>（<strong>32位操作系统</strong>定义的虚拟内存大小为<code>4G</code>)</p>
+<p>建立规整的虚拟内存可以<strong>简化用户程序对内存的使用</strong>。</p>
+<blockquote>
+<p>如何实现规整？</p>
+</blockquote>
+<p>通过<code>换入、换出机制</code>。对于此机制的<strong>定义上面已经給出</strong>，我们下面要介绍这种<strong>机制的原理</strong>及<strong>如何实现</strong>这种机制。不过，在此之前先来看一下<strong>换入换出的示意图</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1660920916239.png"></p>
+<h1 id="换入机制-请求调页"><a href="#换入机制-请求调页" class="headerlink" title="换入机制-请求调页"></a>换入机制-请求调页</h1><h2 id="请求调页"><a href="#请求调页" class="headerlink" title="请求调页"></a>请求调页</h2><blockquote>
+<p>换入的前提：<strong>映射未建立</strong></p>
+</blockquote>
+<p>我们以<strong>下图为例</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1660982682804.png"></p>
+<p>通过<strong>段基址+段内偏移</strong>得到<strong>虚拟地址</strong>为0x4040。而后就要将这个虚拟地址<strong>转换为实际物理地址</strong>，通过运算可得此虚拟地址对应的<strong>页号为4</strong>，所以<strong>查询页表</strong>得到物理地址。这时<strong>问题就出现了</strong>，<strong>页表中并没有建立映射关系</strong>，也就无法获取物理页。</p>
+<p>这时，就要使用<strong>换入机制</strong>，即在缺少虚拟页时<code>请求调页</code>。</p>
+<blockquote>
+<p>内存换入：请求调页</p>
+</blockquote>
+<p>请求调页的过程发生在：<strong>MMU发现虚拟页面在页表项中有效位为0时</strong>。调页的<strong>流程</strong>大概如下：</p>
+<ol>
+<li>MMU向CPU发送<strong>缺页中断</strong>，而后执行这个中断程序。</li>
+<li><strong>中断程序</strong>首先会先在<strong>磁盘</strong>中找到这个虚拟页面对应的内容，并将其放到一个<strong>空闲页框</strong>中。</li>
+<li><strong>修改页表</strong>项，完成虚拟内存与物理页框的<strong>映射处理</strong>。</li>
+</ol>
+<p>下图是对<strong>请求调页</strong>的<strong>流程概括</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1660983387026.png"></p>
+<h2 id="页面调入的具体实现"><a href="#页面调入的具体实现" class="headerlink" title="页面调入的具体实现"></a>页面调入的具体实现</h2><blockquote>
+<p>前面我们只是介绍了<strong>请求调页的流程</strong>，下面要学习其<strong>具体实现</strong>，会从<strong>代码的层面</strong>进行介绍。</p>
+</blockquote>
+<blockquote>
+<p>代码1：从<strong>缺页中断程序</strong>开始</p>
+</blockquote>
+<p>我们要分析此系统如何实现<strong>换入机制</strong>，肯定要从<strong>第一句代码开始</strong>，这个代码就是<strong>缺页中断的代码</strong>。<br>在操作系统启动时<strong>初始IDT表</strong>时就将<strong>14号中断</strong>设置为<strong>缺页中断</strong>，具体如下：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1660992557858.png"></p>
+<p>如上图所示，<code>page_fault</code>就是对应的<strong>中断处理函数</strong>，其具体代码如下：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1660992671454.png"><br><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1660992682588.png"></p>
+<p>我们来<strong>分析一下代码</strong>：</p>
+<ul>
+<li>第一行：获取<strong>页面错误的类型</strong>，是<code>缺页</code>还是<code>越权访问</code>，并把结果<strong>保存在eax</strong>里。</li>
+<li>第二行：将edx的值保存在<code>cr2寄存器</code>，用于<strong>确定缺页的虚拟地址</strong>。</li>
+<li>第三、四行：将<strong>参数压栈</strong>，为后续函数<strong>传参</strong>。</li>
+<li>第五行：判断错误类型，并<strong>跳转到对应函数</strong>，包括<code>do_no_page</code>和<code>do_wp_page</code></li>
+<li>后续就是函数的<strong>跳转与执行</strong></li>
+</ul>
+<blockquote>
+<p><code>do_no_page</code><strong>函数</strong></p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1660997689877.png"></p>
+<p><strong>分析一下代码</strong>：</p>
+<ul>
+<li>第一行：通过<strong>与运算</strong>得出<strong>虚拟页号</strong>（<code>前20位</code>）</li>
+<li>第二行：通过<code>get_free_page()</code>获取一个<strong>空闲的物理内存</strong></li>
+<li>第三行：通过<code>bread_page()</code>将<strong>磁盘内容</strong>放入物理内存中</li>
+<li>第四行：通过<code>put_page()</code>填写<strong>页表内容</strong>，完成映射</li>
+</ul>
+<p>需要注意的是，<code>bread_page</code>完成<strong>磁盘读写</strong>的实现我们放到后面<strong>文件管理</strong>时具体介绍。</p>
+<hr>
+<blockquote>
+<p><strong>承上启下</strong></p>
+<blockquote>
+<p>上面我们介绍了<strong>内存换入</strong>的原因与实现，过程很简单：<code>缺页中断</code>-&gt;<code>虚拟页号获取</code>-&gt;<code>物理内存获取与磁盘写入</code>-&gt;<code>页表填写完成映射</code>。到这里，主程序就可以<strong>寻址成功</strong>。<br>不只有换入，还有<code>换出</code>，因为我们在换入时会<strong>请求一个物理内存</strong>，但是我们<strong>无法保证</strong>一定有<strong>空闲的物理内存</strong>，一旦没有就要实施<strong>换出机制</strong>。换出的流程与实现要<strong>复杂一点</strong>，涉及到<strong>很多算法</strong>。</p>
+</blockquote>
+</blockquote>
+<h1 id="换入机制-页面换出"><a href="#换入机制-页面换出" class="headerlink" title="换入机制-页面换出"></a>换入机制-页面换出</h1><h2 id="页面换出的基本算法"><a href="#页面换出的基本算法" class="headerlink" title="页面换出的基本算法"></a>页面换出的基本算法</h2><p>页面换出是在<code>get_free_page</code>时实现的，而页面换出的一个<strong>很重要的问题</strong>就是：<code>如何确定要淘汰哪一页？</code></p>
+<p>我们需要<strong>一些算法</strong>来确定<strong>换出机制的淘汰对象</strong>，这里我们主要介绍<strong>以下三种算法</strong>：（比较其<strong>优缺点</strong>，找到最优算法）</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1661004486763.png"></p>
+<blockquote>
+<p>算法1：<strong>FIFO（先入先出）</strong></p>
+</blockquote>
+<p>我们以下面<strong>这个例子</strong>来看：<br><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1661004557326.png"></p>
+<p>如图所示，使用<strong>FIFO算法</strong>进行页面<strong>换出和换入</strong>，缺页次数为7。这种算法<strong>并不是很好</strong>，因为往往导致<strong>刚刚换出的页又要被换入</strong>。</p>
+<blockquote>
+<p>算法2：MIN（取最后一个使用的进行换出）</p>
+</blockquote>
+<p>使用<strong>MIN算</strong>法实际操作我们上面的例子：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1661004727541.png"></p>
+<p><strong>缺页次数变少了</strong>。其实，M<code>IN算法</code>就是<strong>最优的换出算法</strong>，可以有效减少缺页次数。</p>
+<p>但是，<code>MIN算法</code>只是一种<strong>理想算法</strong>，在实际的情况下，我们<strong>不可能知道后面要发生什么</strong>，也就<strong>无法确定</strong>后续哪一个页最后被使用。</p>
+<p>但但是，我们可以<strong>借鉴一下MIN算法的思想</strong>，从而引出<code>LRU算法</code>。</p>
+<blockquote>
+<p>算法3：LRU算法</p>
+</blockquote>
+<p>使用<strong>LRU算法</strong>的示例：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1661004922250.png"></p>
+<p><code>LRU算法</code>就是使用<strong>历史来预测未来</strong>：根据<code>局部性规律</code>，我们的程序往往在<strong>一个固定的段中</strong>进行跳转，比如：<strong>while循环、for循环等</strong>操作。</p>
+<p>所以<strong>如图所示</strong>，通过<strong>LRU算法</strong>得到的换出顺序与<strong>MIN算法</strong>一致，可以达到<strong>最优策略</strong>。</p>
+<h2 id="LRU算法的具体实现"><a href="#LRU算法的具体实现" class="headerlink" title="LRU算法的具体实现"></a>LRU算法的具体实现</h2><blockquote>
+<p>实现方法1：<code>时间戳</code>（<strong>模拟很简单，实践不适用</strong>）</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1661040812498.png"></p>
+<p>如图所示，我们<strong>维护一个表</strong>，在其中为<strong>每一个页定义一个时间戳</strong>，这个时间戳会随着页的使用而<strong>依次增加</strong>，换出时选择<strong>时间戳最小的页</strong>所在的页框进行换出。</p>
+<p>使用<strong>时间戳</strong>的方法看起来很直观，也很好实现，但是在<strong>实际情况下很难落实</strong>：<code>花费时间较多、时间戳溢出</code>等</p>
+<blockquote>
+<p>实现方法2：<code>页码栈</code>（<strong>频繁修改指针，代价较大</strong>）</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1661040882305.png"></p>
+<p>如图所示，维护一个<strong>页码栈</strong>，将<strong>最近使用</strong>的页放到最上面（<strong>浮起来</strong>），换出时选择<strong>沉底的页</strong>所在的页框。</p>
+<p>使用<strong>页码栈</strong>会导致每次地址访问都要<strong>修改指针</strong>，时间代价较大。</p>
+<hr>
+<blockquote>
+<p><strong>承上启下</strong></p>
+<blockquote>
+<p>前面我们引出了<code>LRU算法</code>，并给出了几种实现方法：<strong>时间戳、页码栈</strong>等，但是在实际情况下都很难高效实现。<br>所以我们要对LRU算法进行进一步改进：使用<code>LRU的近似实现</code></p>
+</blockquote>
+</blockquote>
+<h2 id="clock算法"><a href="#clock算法" class="headerlink" title="clock算法"></a>clock算法</h2><blockquote>
+<p><code>clock算法</code>就是对<strong>LRU算法的近似实现</strong>，将时间计数改为了<strong>是和否</strong>，而不是使用递增数字。<code>使用最近没有使用近似最少使用。</code></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><code>原始clock算法</code>实现（<strong>单指针</strong>）</p>
+</blockquote>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1661040991247.png"></p>
+<p>如图所示，每一个页加一个<code>引用位</code>，每一次访问此页时就将该位<strong>置为1</strong>；而后在<strong>缺页而选择淘汰页</strong>时，将该位为1的页<strong>置0</strong>，该位为0页淘汰。</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1661041451429.png"></p>
+<p><strong>注</strong>：图中的每一个框框都是分配给此进程的<strong>物理页框</strong>。</p>
+<p>这种方法可以很好的<strong>节省资源</strong>，因为我们可以将页的引用位放到<strong>页码表</strong>里，当<code>MMU</code>进行查询时<strong>自动执行</strong>置0操作，而不需要像前面那样维护一个复杂的数据结构。</p>
+<blockquote>
+<blockquote>
+<p>clock算法的<strong>分析与改进</strong>（<strong>双指针</strong>）</p>
+</blockquote>
+</blockquote>
+<p><strong>原始clock算法</strong>虽然可以节省很多资源、很高效，但是其<strong>对LRU的近似并不好</strong>。 </p>
+<p>我们看<strong>下面这个例子</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1661041084059.png"></p>
+<p>因为现在的计算机<strong>内存都比较大</strong>，缺页的情况发生的很少，所以会导致所有页的<strong>引用位被置1</strong>；而后在<strong>缺页时</strong>选择淘汰页时，会把所有的页的<strong>引用位都归零</strong>，并选取其中一个进行调出；这样就会导致clock算法<strong>退化为FIFO算法</strong>。</p>
+<p><strong>问题所在</strong>：记录的<strong>历史信息太长</strong>，导致“<code>最近没有使用近似最少使用</code>”中的<strong>最近</strong>没有体现出来</p>
+<p><strong>问题解决</strong>：<code>定时清除R位</code>。使用<strong>双指针</strong>的方式进行，<strong>快指针用于清除</strong>，<strong>慢指针用于选择淘汰页</strong>。</p>
+<h2 id="页框个数分配和全局置换"><a href="#页框个数分配和全局置换" class="headerlink" title="页框个数分配和全局置换"></a>页框个数分配和全局置换</h2><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1661041193986.png"></p>
+<p>如图所示，给每一个<strong>进程分配的页框数目</strong>是一个很需要考虑的问题：<strong>分配的多会使得换入、换出机制的失效</strong>，分配的少会导致<strong>颠簸现象</strong>（<code>本质还是缺页</code>）</p>
+<p>分配页框的个数也有<strong>很多算法</strong>来计算，一般思想是：<strong>计算一个工作集，使其可以覆盖局部</strong>。这里我们<strong>不再介绍</strong>。</p>
+<hr>
+<hr>
+<blockquote>
+<p><strong>写在最后</strong>：<strong>总结</strong></p>
+<blockquote>
+<p>这一节我们介绍了一个<strong>规整的虚拟内存</strong>的实现：通过<strong>换入、换出机制</strong>保证每一个进程都有一个固定大小的虚拟内存空间。同时介绍了换入换出机制的<strong>原理和实现</strong>，其中涉及到<strong>很多算法</strong>以提高换入、换出的效率。<br>到这里，操作系统中的核心视图——<code>多进程视图</code>就学习完毕了。后面我们将进行<code>IO设备驱动</code>、<code>文件管理</code>等的介绍与学习。</p>
+</blockquote>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Qidangge</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qidangge.github.io/2022/09/12/%EF%BC%88%E7%AC%AC%E5%85%AD%E8%8A%82%EF%BC%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F--%E6%8D%A2%E5%85%A5_%E6%8D%A2%E5%87%BA%EF%BC%88%E7%94%A8%E7%A9%BA%E9%97%B4%E5%92%8C%E6%97%B6%E9%97%B4%E6%8D%A2%E8%99%9A%E5%AD%98%EF%BC%89/">https://qidangge.github.io/2022/09/12/%EF%BC%88%E7%AC%AC%E5%85%AD%E8%8A%82%EF%BC%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F--%E6%8D%A2%E5%85%A5_%E6%8D%A2%E5%87%BA%EF%BC%88%E7%94%A8%E7%A9%BA%E9%97%B4%E5%92%8C%E6%97%B6%E9%97%B4%E6%8D%A2%E8%99%9A%E5%AD%98%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qidangge.github.io" target="_blank">Qidangge的小小世界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><a class="post-meta__tags" href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/">虚拟内存</a></div><div class="post_share"><div class="social-share" data-image="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/09/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/"><img class="prev-cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">操作系统1--计算机系统概论</div></div></a></div><div class="next-post pull-right"><a href="/2022/09/06/%E5%A4%A7%E5%AD%A6%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92(%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89/"><img class="next-cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">大学学习规划(更新中）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/08/19/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F--%E6%89%A9%E5%B1%95%E7%9F%A5%E8%AF%86/" title="操作系统--扩展知识"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back5_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-19</div><div class="title">操作系统--扩展知识</div></div></a></div><div><a href="/2022/09/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="操作系统1--计算机系统概论"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-12</div><div class="title">操作系统1--计算机系统概论</div></div></a></div><div><a href="/2022/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1/" title="走进操作系统：是什么和怎么学"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-17</div><div class="title">走进操作系统：是什么和怎么学</div></div></a></div><div><a href="/2022/08/08/%EF%BC%88%E7%AC%AC2.5%E8%8A%82%EF%BC%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F--%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9/" title="（第2.5节）操作系统--学习内容"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-08</div><div class="title">（第2.5节）操作系统--学习内容</div></div></a></div><div><a href="/2022/07/31/%EF%BC%88%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F--%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%95%8C%E9%9D%A2%E8%AF%B4%E8%B5%B7/" title="（第一节）操作系统--第一个界面说起"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-31</div><div class="title">（第一节）操作系统--第一个界面说起</div></div></a></div><div><a href="/2022/08/21/%EF%BC%88%E7%AC%AC%E4%B8%83%E8%8A%82%EF%BC%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F--%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/" title="（第七节）操作系统--设备驱动"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-21</div><div class="title">（第七节）操作系统--设备驱动</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Qidangge</div><div class="author-info__description">欢迎来访</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">64</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">71</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">29</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Qidangge"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Qidangge" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">记录生活与收获！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%84%E6%95%B4%E7%9A%84%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">1.</span> <span class="toc-text">规整的虚拟内存</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念介绍</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8D%A2%E5%85%A5%E6%9C%BA%E5%88%B6-%E8%AF%B7%E6%B1%82%E8%B0%83%E9%A1%B5"><span class="toc-number">2.</span> <span class="toc-text">换入机制-请求调页</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E8%B0%83%E9%A1%B5"><span class="toc-number">2.1.</span> <span class="toc-text">请求调页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E8%B0%83%E5%85%A5%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.</span> <span class="toc-text">页面调入的具体实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8D%A2%E5%85%A5%E6%9C%BA%E5%88%B6-%E9%A1%B5%E9%9D%A2%E6%8D%A2%E5%87%BA"><span class="toc-number">3.</span> <span class="toc-text">换入机制-页面换出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E6%8D%A2%E5%87%BA%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%AE%97%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">页面换出的基本算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LRU%E7%AE%97%E6%B3%95%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.2.</span> <span class="toc-text">LRU算法的具体实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#clock%E7%AE%97%E6%B3%95"><span class="toc-number">3.3.</span> <span class="toc-text">clock算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B5%E6%A1%86%E4%B8%AA%E6%95%B0%E5%88%86%E9%85%8D%E5%92%8C%E5%85%A8%E5%B1%80%E7%BD%AE%E6%8D%A2"><span class="toc-number">3.4.</span> <span class="toc-text">页框个数分配和全局置换</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/10/07/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B4--PE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="逆向工程4--PE结构详解"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="逆向工程4--PE结构详解"/></a><div class="content"><a class="title" href="/2022/10/07/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B4--PE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="逆向工程4--PE结构详解">逆向工程4--PE结构详解</a><time datetime="2022-10-07T04:13:14.402Z" title="发表于 2022-10-07 12:13:14">2022-10-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/24/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A81--%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E5%A8%81%E8%83%81/" title="系统安全1--信息系统安全威胁"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back9_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="系统安全1--信息系统安全威胁"/></a><div class="content"><a class="title" href="/2022/09/24/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A81--%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E5%A8%81%E8%83%81/" title="系统安全1--信息系统安全威胁">系统安全1--信息系统安全威胁</a><time datetime="2022-09-24T07:29:37.605Z" title="发表于 2022-09-24 15:29:37">2022-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="操作系统1--计算机系统概论"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统1--计算机系统概论"/></a><div class="content"><a class="title" href="/2022/09/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="操作系统1--计算机系统概论">操作系统1--计算机系统概论</a><time datetime="2022-09-12T08:01:37.097Z" title="发表于 2022-09-12 16:01:37">2022-09-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/12/%EF%BC%88%E7%AC%AC%E5%85%AD%E8%8A%82%EF%BC%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F--%E6%8D%A2%E5%85%A5_%E6%8D%A2%E5%87%BA%EF%BC%88%E7%94%A8%E7%A9%BA%E9%97%B4%E5%92%8C%E6%97%B6%E9%97%B4%E6%8D%A2%E8%99%9A%E5%AD%98%EF%BC%89/" title="（第六节）操作系统--换入\换出（用空间和时间换虚存）"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="（第六节）操作系统--换入\换出（用空间和时间换虚存）"/></a><div class="content"><a class="title" href="/2022/09/12/%EF%BC%88%E7%AC%AC%E5%85%AD%E8%8A%82%EF%BC%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F--%E6%8D%A2%E5%85%A5_%E6%8D%A2%E5%87%BA%EF%BC%88%E7%94%A8%E7%A9%BA%E9%97%B4%E5%92%8C%E6%97%B6%E9%97%B4%E6%8D%A2%E8%99%9A%E5%AD%98%EF%BC%89/" title="（第六节）操作系统--换入\换出（用空间和时间换虚存）">（第六节）操作系统--换入\换出（用空间和时间换虚存）</a><time datetime="2022-09-12T04:08:33.327Z" title="发表于 2022-09-12 12:08:33">2022-09-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/06/%E5%A4%A7%E5%AD%A6%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92(%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89/" title="大学学习规划(更新中）"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="大学学习规划(更新中）"/></a><div class="content"><a class="title" href="/2022/09/06/%E5%A4%A7%E5%AD%A6%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92(%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89/" title="大学学习规划(更新中）">大学学习规划(更新中）</a><time datetime="2022-09-06T10:02:22.067Z" title="发表于 2022-09-06 18:02:22">2022-09-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Qidangge</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">与人同行，相约共进</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="来了,就,不要,走了,！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
