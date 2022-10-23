@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>不可否认性保护--数字签名 | Qidangge的小小世界</title><meta name="keywords" content="数字签名,密码学,系统安全"><meta name="author" content="Qidangge"><meta name="copyright" content="Qidangge"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文对系统安全中数字签名部分内容进行介绍。包括：目标、分类与SET实例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="不可否认性保护--数字签名">
+<meta property="og:url" content="https://qidangge.github.io/2022/10/08/%E4%B8%8D%E5%8F%AF%E5%90%A6%E8%AE%A4%E6%80%A7%E4%BF%9D%E6%8A%A4--%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/index.html">
+<meta property="og:site_name" content="Qidangge的小小世界">
+<meta property="og:description" content="本文对系统安全中数字签名部分内容进行介绍。包括：目标、分类与SET实例。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg">
+<meta property="article:published_time" content="2022-10-08T03:12:35.299Z">
+<meta property="article:modified_time" content="2022-10-08T03:12:47.326Z">
+<meta property="article:author" content="Qidangge">
+<meta property="article:tag" content="数字签名">
+<meta property="article:tag" content="密码学">
+<meta property="article:tag" content="系统安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://qidangge.github.io/2022/10/08/%E4%B8%8D%E5%8F%AF%E5%90%A6%E8%AE%A4%E6%80%A7%E4%BF%9D%E6%8A%A4--%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Qidangge","link":"链接: ","source":"来源: Qidangge的小小世界","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '不可否认性保护--数字签名',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-08 11:12:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">66</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">73</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">29</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Qidangge的小小世界</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">不可否认性保护--数字签名</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-10-08T03:12:35.299Z" title="发表于 2022-10-08 11:12:35">2022-10-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-10-08T03:12:47.326Z" title="更新于 2022-10-08 11:12:47">2022-10-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%93%E4%B8%9A%E5%9F%BA%E7%A1%80/">专业基础</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%93%E4%B8%9A%E5%9F%BA%E7%A1%80/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%EF%BC%88%E6%A1%86%E6%9E%B6%E6%80%A7%EF%BC%89/">系统安全（框架性）</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="不可否认性保护--数字签名"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>本篇文章主要用于介绍书中<strong>数字签名部分</strong>的相关内容，主要是对一些<strong>符号、流程</strong>进行介绍，同时<strong>理清体系</strong>，便于<strong>密码学课程</strong>进一步学习。</p>
+</blockquote>
+<p><strong>本节体系图</strong>如下：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1665194096506.png"></p>
+<p><strong>下面我们一一介绍</strong></p>
+<h1 id="直接数字签名"><a href="#直接数字签名" class="headerlink" title="直接数字签名"></a>直接数字签名</h1><h2 id="使用RSA公钥密码体制"><a href="#使用RSA公钥密码体制" class="headerlink" title="使用RSA公钥密码体制"></a>使用RSA公钥密码体制</h2><p><strong>流程如下</strong>：</p>
+<ol>
+<li>通过<strong>哈希函数</strong>抽取部分原文M’；</li>
+<li>发送方使用**私钥加密M’**得到S;</li>
+<li>发送方使用接收方<strong>公钥加密S</strong>为S’  </li>
+<li>之后<strong>接收方进行验证</strong>：先通过本身私钥解密S’,再通过别方公钥解密S得M’,最后通过相同哈希从M中得到M’进行比较即可。,再通过别方公钥解密S得M’,再通过别方公钥解密S得M’,再通过别方公钥解密S得M’</li>
+</ol>
+<p><strong>安全考虑</strong>：</p>
+<p>此方案采取非对称密钥进行签名，其安全性<strong>完全依赖于密钥体制的安全性</strong>，会产生一些漏洞。</p>
+<h2 id="DSA数字签名标准"><a href="#DSA数字签名标准" class="headerlink" title="DSA数字签名标准"></a>DSA数字签名标准</h2><p><strong>基本流程</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1665194218629.png"></p>
+<p><strong>流程解释：</strong></p>
+<p>此方案分关键点在于<strong>DSA函数</strong>，此函数有4个参数：<code>n(随机数)</code>、<code>PKg（公钥）</code>、<code>SKa（私钥）</code>、<code>H(SHA生成的报文摘要)</code>；返回两个结果：<code>s和r</code>。（这里的s和r就是发送者的签名）</p>
+<p>而接收方验证则是将5个参数（如图）传入DSA函数并将得到的<strong>结果与r比较</strong>。</p>
+<p><strong>安全考虑</strong>：</p>
+<p>此方案的安全性的计算<strong>基于离散对数的困难性</strong>即攻击者从r中恢复n或者从s恢复SKa在计算上不可行。</p>
+<p>也就是说，攻击者在截取到X发送的报文时，可以<strong>获得s和r</strong>。但是此签名的生成<strong>有n和私钥参与</strong>，攻击者<strong>无法从已有的信息中反推这两个信息</strong>，也就无法伪造签名了。</p>
+<h1 id="有仲裁的数字签名"><a href="#有仲裁的数字签名" class="headerlink" title="有仲裁的数字签名"></a>有仲裁的数字签名</h1><h2 id="方案一：公钥对称密钥加密"><a href="#方案一：公钥对称密钥加密" class="headerlink" title="方案一：公钥对称密钥加密"></a>方案一：公钥对称密钥加密</h2><p><strong>基本流程如下</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1665191029036.png"><br><strong>符号说明</strong>：</p>
+<ul>
+<li>X:发送方         Y:接收方         A:仲裁机构</li>
+<li><code>H(M) == 哈希函数值</code>，也就是从明文提取的报文段。</li>
+<li><code>|| == 链接</code>，即将前后双方连接在一起成为新的整体</li>
+<li><code>IDx == 为X的身份码</code></li>
+<li><code>T == 时间戳</code></li>
+</ul>
+<p><strong>流程解释</strong>：</p>
+<ol>
+<li>首先X与A共享一个密钥Exa，A与Y共享一个密钥Eax。(<strong>X、Y不知另外的密钥</strong>)</li>
+<li>通信过程中发送的报文为<strong>明文M</strong></li>
+</ol>
+<p><strong>安全考虑</strong>：</p>
+<p>此方案建立在<strong>X和Y对A的高度信任</strong>之下，即：</p>
+<ul>
+<li>X相信A不会泄露密钥也不会伪造签名</li>
+<li>Y相信A的认证是可靠的</li>
+<li>X和Y相信在出现问题后A可以</li>
+</ul>
+<h2 id="方案二：对称密钥明文加密"><a href="#方案二：对称密钥明文加密" class="headerlink" title="方案二：对称密钥明文加密"></a>方案二：对称密钥明文加密</h2><p><strong>基本流程如下</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1665192070588.png"><br><strong>流程解释</strong>：</p>
+<p>与方案一比较一下，可知此方案改动的地方：<strong>将明文M进行加密</strong>。</p>
+<p><strong>安全考虑</strong>：</p>
+<p>此方案可以<strong>为明文提供保密性</strong>，但是<strong>无法解决对仲裁者的约束</strong>。因为仲裁者仍然可以伪造签名、虚假认证，只是无法得到明文信息而已。</p>
+<h2 id="方案三：公开密钥加密"><a href="#方案三：公开密钥加密" class="headerlink" title="方案三：公开密钥加密"></a>方案三：公开密钥加密</h2><p><strong>基本流程如下</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1665192379539.png"></p>
+<p><strong>流程解释</strong>：</p>
+<p>与方案二相比，这里<strong>引入公钥密码体制</strong>，使得仲裁方<strong>只能验证IDx</strong>而无法对之后的加密信息进行解密，这段信息只有Y可以解密。这样就保证<strong>A无法进行签名的伪造</strong>。</p>
+<p><strong>安全考虑</strong>：</p>
+<p>方案三<strong>进一步约束了仲裁方</strong>，使得其无法与任何一方共谋。</p>
+<h1 id="认证协议实例–SET"><a href="#认证协议实例–SET" class="headerlink" title="认证协议实例–SET"></a>认证协议实例–SET</h1><blockquote>
+<p>在正式介绍之前，我们先说一下为什么要介绍SET。因为SET是对数字签名的实际应用，通过对其流程和原理的理解可以帮助我们深入了解数字签名的知识。同时也是为了提醒我们，密码学可以分为算法和应用两部分，前者不断更新，而依托在算法之上的应用也在不断迭代。所以在学习时对于这些应用不要固步自封，认为只有这些技术，我们现在学习的只是一些经典的应用而已。<br>万变不离其宗，先学习常用算法，之后再学习这些算法在经典场景下的具体应用，前者基本类别不会有太大变化，后者则是在不断更新中。</p>
+</blockquote>
+<blockquote>
+<p>什么是SET呢？<br>安全电子交易( Secure Electronic Transaction， SET)协议是一种<strong>利用加密技术</strong>( cryptography)，以确保<strong>信用卡消费者</strong>、<strong>销售商</strong>及<strong>金融机构</strong>在Intermet 上从事电子交易的<strong>安全性和隐私性</strong>的协议。</p>
+</blockquote>
+<h2 id="B-to-C-交易流程"><a href="#B-to-C-交易流程" class="headerlink" title="B to C 交易流程"></a>B to C 交易流程</h2><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1665198400960.png"><br>SET便是为了保证上述交易过程中的<strong>安全性和隐私性</strong>。</p>
+<h2 id="关键技术1–数字信封"><a href="#关键技术1–数字信封" class="headerlink" title="关键技术1–数字信封"></a>关键技术1–数字信封</h2><blockquote>
+<p>数字信封其实在前面已经介绍过了，这里只是给这个过程<strong>一个专业术语</strong>而已。其<strong>具体流程如下图</strong>，是使用公钥密钥体制解决密钥传送的安全性问题的应用。</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1665197712275.png"><br>原理很简单，利用接收方<strong>公钥对对称密钥加密</strong>并传输，而后接收方使用<strong>私钥解密</strong>得到对称密钥。</p>
+<h2 id="关键技术2–双重签名"><a href="#关键技术2–双重签名" class="headerlink" title="关键技术2–双重签名"></a>关键技术2–双重签名</h2><blockquote>
+<p>双重签名是数字签名的扩展应用，其目的是<strong>为了让与有关角色无关的角色无法知道不应该知道的机密</strong>。</p>
+</blockquote>
+<p>我们将上述黑体字<strong>放到实际的场景</strong>下：</p>
+<ul>
+<li><p>银行不应该知道持卡人与商家之间交易的机密数据</p>
+</li>
+<li><p>商家不应该知道持卡人的账户数据</p>
+</li>
+</ul>
+<p>如何实现呢？使用<strong>双重签名技巧</strong>，其具体流程如下：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1665198072193.png"><br>这个过程是比较复杂的，我们可以不关注具体的实现，从全局角度理解之。</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1665198606937.jpg"><br>需要继续学习。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Qidangge</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qidangge.github.io/2022/10/08/%E4%B8%8D%E5%8F%AF%E5%90%A6%E8%AE%A4%E6%80%A7%E4%BF%9D%E6%8A%A4--%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/">https://qidangge.github.io/2022/10/08/%E4%B8%8D%E5%8F%AF%E5%90%A6%E8%AE%A4%E6%80%A7%E4%BF%9D%E6%8A%A4--%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qidangge.github.io" target="_blank">Qidangge的小小世界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/">数字签名</a><a class="post-meta__tags" href="/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/">密码学</a><a class="post-meta__tags" href="/tags/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">系统安全</a></div><div class="post_share"><div class="social-share" data-image="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/10/23/%E5%AF%86%E7%A0%81%E5%AD%A6-%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%B8%8E%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"><img class="prev-cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">密码学-数学基础知识与代码实现</div></div></a></div><div class="next-post pull-right"><a href="/2022/10/07/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B4--PE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/"><img class="next-cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">逆向工程4--PE结构详解</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/10/23/%E5%AF%86%E7%A0%81%E5%AD%A6-%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%B8%8E%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" title="密码学-数学基础知识与代码实现"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-23</div><div class="title">密码学-数学基础知识与代码实现</div></div></a></div><div><a href="/2022/09/05/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AD%A6%E4%B9%A01--%E4%BF%A1%E6%81%AF%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%A6%82%E5%BF%B5/" title="密码学学习1--信息与网络安全概念"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back5_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-05</div><div class="title">密码学学习1--信息与网络安全概念</div></div></a></div><div><a href="/2022/09/06/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A80--%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/" title="系统安全0--信息系统安全框架"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-06</div><div class="title">系统安全0--信息系统安全框架</div></div></a></div><div><a href="/2022/09/24/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A81--%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E5%A8%81%E8%83%81/" title="系统安全1--信息系统安全威胁"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back5_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-24</div><div class="title">系统安全1--信息系统安全威胁</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Qidangge</div><div class="author-info__description">欢迎来访</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">66</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">73</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">29</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Qidangge"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Qidangge" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">记录生活与收获！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="toc-number">1.</span> <span class="toc-text">直接数字签名</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8RSA%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6"><span class="toc-number">1.1.</span> <span class="toc-text">使用RSA公钥密码体制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DSA%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E6%A0%87%E5%87%86"><span class="toc-number">1.2.</span> <span class="toc-text">DSA数字签名标准</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%89%E4%BB%B2%E8%A3%81%E7%9A%84%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="toc-number">2.</span> <span class="toc-text">有仲裁的数字签名</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E4%B8%80%EF%BC%9A%E5%85%AC%E9%92%A5%E5%AF%B9%E7%A7%B0%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86"><span class="toc-number">2.1.</span> <span class="toc-text">方案一：公钥对称密钥加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E4%BA%8C%EF%BC%9A%E5%AF%B9%E7%A7%B0%E5%AF%86%E9%92%A5%E6%98%8E%E6%96%87%E5%8A%A0%E5%AF%86"><span class="toc-number">2.2.</span> <span class="toc-text">方案二：对称密钥明文加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E4%B8%89%EF%BC%9A%E5%85%AC%E5%BC%80%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86"><span class="toc-number">2.3.</span> <span class="toc-text">方案三：公开密钥加密</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A4%E8%AF%81%E5%8D%8F%E8%AE%AE%E5%AE%9E%E4%BE%8B%E2%80%93SET"><span class="toc-number">3.</span> <span class="toc-text">认证协议实例–SET</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#B-to-C-%E4%BA%A4%E6%98%93%E6%B5%81%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">B to C 交易流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF1%E2%80%93%E6%95%B0%E5%AD%97%E4%BF%A1%E5%B0%81"><span class="toc-number">3.2.</span> <span class="toc-text">关键技术1–数字信封</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF2%E2%80%93%E5%8F%8C%E9%87%8D%E7%AD%BE%E5%90%8D"><span class="toc-number">3.3.</span> <span class="toc-text">关键技术2–双重签名</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/10/23/%E5%AF%86%E7%A0%81%E5%AD%A6-%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%B8%8E%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" title="密码学-数学基础知识与代码实现"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="密码学-数学基础知识与代码实现"/></a><div class="content"><a class="title" href="/2022/10/23/%E5%AF%86%E7%A0%81%E5%AD%A6-%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%B8%8E%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" title="密码学-数学基础知识与代码实现">密码学-数学基础知识与代码实现</a><time datetime="2022-10-23T08:58:16.168Z" title="发表于 2022-10-23 16:58:16">2022-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/08/%E4%B8%8D%E5%8F%AF%E5%90%A6%E8%AE%A4%E6%80%A7%E4%BF%9D%E6%8A%A4--%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" title="不可否认性保护--数字签名"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="不可否认性保护--数字签名"/></a><div class="content"><a class="title" href="/2022/10/08/%E4%B8%8D%E5%8F%AF%E5%90%A6%E8%AE%A4%E6%80%A7%E4%BF%9D%E6%8A%A4--%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" title="不可否认性保护--数字签名">不可否认性保护--数字签名</a><time datetime="2022-10-08T03:12:35.299Z" title="发表于 2022-10-08 11:12:35">2022-10-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/07/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B4--PE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="逆向工程4--PE结构详解"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="逆向工程4--PE结构详解"/></a><div class="content"><a class="title" href="/2022/10/07/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B4--PE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="逆向工程4--PE结构详解">逆向工程4--PE结构详解</a><time datetime="2022-10-07T04:13:14.402Z" title="发表于 2022-10-07 12:13:14">2022-10-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/24/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A81--%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E5%A8%81%E8%83%81/" title="系统安全1--信息系统安全威胁"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back5_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="系统安全1--信息系统安全威胁"/></a><div class="content"><a class="title" href="/2022/09/24/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A81--%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E5%A8%81%E8%83%81/" title="系统安全1--信息系统安全威胁">系统安全1--信息系统安全威胁</a><time datetime="2022-09-24T07:29:37.605Z" title="发表于 2022-09-24 15:29:37">2022-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="操作系统1--计算机系统概论"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统1--计算机系统概论"/></a><div class="content"><a class="title" href="/2022/09/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="操作系统1--计算机系统概论">操作系统1--计算机系统概论</a><time datetime="2022-09-12T08:01:37.097Z" title="发表于 2022-09-12 16:01:37">2022-09-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Qidangge</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">与人同行，相约共进</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="来了,就,不要,走了,！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
