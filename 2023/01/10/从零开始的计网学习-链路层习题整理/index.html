@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>从零开始的计网学习-链路层习题整理 | Qidangge的小小世界</title><meta name="keywords" content="计算机网络,数据链路层"><meta name="author" content="Qidangge"><meta name="copyright" content="Qidangge"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="由于数据链路层的知识整理比较多、比较繁琐，所以这里将这一层的习题进行单独整理，可以在通过前一篇文章构建框架后看这一章的习题进行深入理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零开始的计网学习-链路层习题整理">
+<meta property="og:url" content="https://qidangge.github.io/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86/index.html">
+<meta property="og:site_name" content="Qidangge的小小世界">
+<meta property="og:description" content="由于数据链路层的知识整理比较多、比较繁琐，所以这里将这一层的习题进行单独整理，可以在通过前一篇文章构建框架后看这一章的习题进行深入理解。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg">
+<meta property="article:published_time" content="2023-01-10T15:09:20.847Z">
+<meta property="article:modified_time" content="2023-01-10T15:09:23.222Z">
+<meta property="article:author" content="Qidangge">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="数据链路层">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://qidangge.github.io/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Qidangge","link":"链接: ","source":"来源: Qidangge的小小世界","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '从零开始的计网学习-链路层习题整理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-10 23:09:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">73</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">79</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">30</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Qidangge的小小世界</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">从零开始的计网学习-链路层习题整理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-10T15:09:20.847Z" title="发表于 2023-01-10 23:09:20">2023-01-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-10T15:09:23.222Z" title="更新于 2023-01-10 23:09:23">2023-01-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%A1%E7%BD%91%E4%B8%93%E9%A2%98/">计网专题</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="从零开始的计网学习-链路层习题整理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p><strong>写在最前面</strong>：本篇文章是计算机网络中数据链路层的习题汇总，会给出问题和答案，但是在看答案之前建议先自己思考一下你的回答，再与答案对比。<br><strong>习题参考</strong>：<a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1413289786211373056?utm_source=qq&amp;utm_medium=social&amp;utm_oi=1268627816133816320">https://www.zhihu.com/column/c_1413289786211373056?utm_source=qq&amp;utm_medium=social&amp;utm_oi=1268627816133816320</a><br><strong>说明</strong>：会在原习题的基础上加上自己的理解，同时会将原本的题目进行分类，便于学习理解。</p>
+</blockquote>
+<ul>
+<li><a href="#%E4%B8%80%E4%BA%9B%E5%BF%85%E9%A1%BB%E8%A6%81%E6%87%82%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E7%AD%94%E6%95%B4%E7%90%86">一些必须要懂的常见问题与解答整理</a></li>
+<li><a href="#%E4%B8%80%E4%BA%9B%E5%BF%85%E9%A1%BB%E8%A6%81%E6%87%82%E7%9A%84%E9%87%8D%E9%9A%BE%E7%82%B9%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86">一些必须要懂的重难点课后习题整理</a><ul>
+<li><a href="#%E6%A6%82%E5%BF%B5%E7%90%86%E8%A7%A3%E9%A2%98">概念理解题</a></li>
+<li><a href="#%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E9%A2%98">协议原理题</a></li>
+<li><a href="#%E7%BB%84%E5%B8%A7%E7%B1%BB%E5%9E%8B%E9%A2%98">组帧类型题</a></li>
+<li><a href="#%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B%E9%A2%98">差错检测题</a></li>
+<li><a href="#%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E9%A2%98">流量控制题</a></li>
+<li><a href="#%E5%AA%92%E4%BB%8B%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6">媒介访问控制</a></li>
+<li><a href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E9%A2%98%E7%9B%AE">局域网题目</a></li>
+<li><a href="#%E7%89%A9%E7%90%86%E8%AE%BE%E5%A4%87%E9%A2%98">物理设备题</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="一些必须要懂的常见问题与解答整理"><a href="#一些必须要懂的常见问题与解答整理" class="headerlink" title="一些必须要懂的常见问题与解答整理"></a>一些必须要懂的常见问题与解答整理</h1><blockquote>
+<p><strong>问题一</strong>：旧版的《计算机网络》认为数据链路层的任务是<strong>在两个相邻结点间的线路上无差错地传送以帧(frame)为单位的数据</strong>。数据链路层可以把一条有可能出差错的实际链路转变成为<strong>让网络层向下看起来好像是一条不出差错的链路</strong>。但最近新版的《计算机网络》中对数据链路层的提法就改变了。数据链路层的传输不能让网络层向下看起来好像是一条不出差错的链路。到底哪一种说法是正确的？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673233903417.png"></p>
+<p><strong>我的理解</strong>：二者并没有谁对谁错，只是针对的对象不同。不过我们当然要与时俱进，最好是两者都知道，并可以解释其中差别。</p>
+<blockquote>
+<p><strong>问题二</strong>：当数据链路层是用<strong>PPP协议或CSMA/CD协议</strong>时，既然不保证可靠传输，那么<strong>为什么对所传输的帧进行差错检测呢</strong>？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673234122096.png"></p>
+<p><strong>我的理解</strong>：PPP协议或者CSMA/CD只是<strong>不实现重发机制</strong>，基础的差错检测功能还是有的。</p>
+<blockquote>
+<p><strong>问题三</strong>：为什么旧版本的教材在数据链路层一章中讲授可靠传输，但现在<strong>新版本教材则取消了可靠传输？</strong></p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673234290730.png"></p>
+<p><strong>我的理解</strong>：只是为了适应现实，将其放到真实使用的层次。</p>
+<blockquote>
+<p><strong>问题四</strong>：除了差错检测外，面向字符的数据链路层协议还必须解决哪些特殊的问题？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673234430056.png"><br><strong>我的理解</strong>：差错检测是判断数据帧是否出错。而数据链路层协议还具备解决<strong>帧界定和透明传输</strong>的功能，其中帧界定有很多方法要记住，而透明传输是在帧界定的基础上提出的要求。</p>
+<blockquote>
+<p><strong>问题五</strong>：为什么计算机进行通信时<strong>发送缓存和接收缓存</strong>总是需要的？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673234490219.png"></p>
+<p><strong>我的理解</strong>：缓冲区的目的就是为了实现发送和接收的同步，协调二者的时间，提高信道利用率。</p>
+<blockquote>
+<p><strong>问题六</strong>：在以太网中发生了碰撞是否说明这时出现了某种故障？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673234633178.png"></p>
+<p><strong>我的理解</strong>：碰撞是一个很常见的现象，不可以作为故障的决定标准。</p>
+<blockquote>
+<p><strong>问题七</strong>：是什么原因使以太网有一个<strong>最小帧长和最大帧长</strong>？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673234732661.png"></p>
+<p><strong>我的理解</strong>：在前面学习数据链路层的相关知识时有过MTU的扩展，那里从<strong>差错检测的角度</strong>给出了最小帧长和最大帧长的原因；这里则是从<strong>介质访问控制的角度</strong>给出，即<strong>过短会导致无法进行冲突检测，同时可以借此去除无效帧，过长则是为了保证接入的公平性，防止长时间等待</strong>。</p>
+<blockquote>
+<p><strong>问题八</strong>：以太网的覆盖范围受限的一个原因是：如果站点之间的距离太大，那么由于<strong>信号传输时会衰减得很多</strong>因而无法对信号进行可靠的接收。试问：如果我们设法提高发送信号的功率，那么是否就可以增大以太网的通信距离？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673235024434.png"></p>
+<p><strong>我的理解</strong>：<strong>决定因素是信噪比</strong>，功率提升噪声也会提升，信噪比不会显著增大。</p>
+<blockquote>
+<p><strong>问题九</strong>：一个大学能否就使用一个很大的局域网，而不使用许多相互连接的较小的局域网？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673235136843.png"></p>
+<blockquote>
+<p><strong>问题十</strong>：一个10Mbit/s以太网若工作在<strong>全双工状态</strong>，那么其数据率是发送和接收各为5Mbit/s还是发送和接收各为10Mbit/s。</p>
+</blockquote>
+<p><strong>答案</strong>：二者都是10Mbps</p>
+<blockquote>
+<p><strong>问题十一</strong>：在以太网中，有没有可能在发送了512bit(64B)以后才发生碰撞？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673235251420.png"></p>
+<blockquote>
+<p><strong>问题十二</strong>：当局域网刚刚问世时，<strong>总线型的以太网被认为可靠性比星型结构的网络好</strong>。但现在以太网又回到了星型结构，使用集线器作为交换结点。那么以前的看法是否有些不正确？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673235387231.png"></p>
+<p><strong>扩展：星形结构</strong></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673235491017.png"></p>
+<p><a target="_blank" rel="noopener" href="https://product.pconline.com.cn/itbk/life/electronic/1802/10848376.html">星型网络结构有哪些特点 星型网络结构优缺点介绍</a></p>
+<h1 id="一些必须要懂的重难点课后习题整理"><a href="#一些必须要懂的重难点课后习题整理" class="headerlink" title="一些必须要懂的重难点课后习题整理"></a>一些必须要懂的重难点课后习题整理</h1><h2 id="概念理解题"><a href="#概念理解题" class="headerlink" title="概念理解题"></a>概念理解题</h2><blockquote>
+<p><strong>数据链路</strong>（即逻辑链路）与<strong>链路</strong>（即物理链路）有何区别？“<strong>电路接通了</strong>”与“<strong>数据链路接通了</strong>”的区别何在？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673235683338.png"><br><strong>我的理解</strong>：物理链路是实际的，是一段传输介质；数据链路是虚拟的，是协议的集合。</p>
+<blockquote>
+<p>数据链路层中的<strong>链路控制包括哪些功能</strong>？试讨论<strong>把数据链路层做成可靠的链路层有哪些优点和缺点？</strong></p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673235956949.png"></p>
+<p><strong>我的理解</strong>：上题的答案更加趋向于<strong>MAC子层的功能</strong>。而数据链路层还包含<strong>介质访问控制、流量控制</strong>的功能。同时上文已经说过，现在的数据链路层是不提供可靠性服务的（PPP协议和CSMA/CD协议）</p>
+<blockquote>
+<p>数据链路层的<strong>三个基本问题</strong>（封装成帧、透明传输和差错检测）为什么都必须加以解决？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673236323837.png"></p>
+<h2 id="协议原理题"><a href="#协议原理题" class="headerlink" title="协议原理题"></a>协议原理题</h2><blockquote>
+<p>PPP协议的主要特点是什么？为什么PPP不使用帧的编号？PPP适用于什么情况？为什么PPP协议不能使数据链路层实现可靠传输？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673236408703.png"></p>
+<blockquote>
+<p><strong>PPP协议</strong>的工作状态有哪几种？当用户要使用PPP协议和ISP建立连接进行通信时，需要建立哪几种连接？每一种连接解决什么问题？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673237657349.png"></p>
+<h2 id="组帧类型题"><a href="#组帧类型题" class="headerlink" title="组帧类型题"></a>组帧类型题</h2><blockquote>
+<p>一个PPP帧的数据部分（用十六进制写出）是 7D 5E FE 27 7D 5D 7D 5D 65 7D 5E。试问真正的数据是什么（用十六进制写出）？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673237444155.png"><br><strong>注意</strong>：这个应该是的字节填充法，要换掉转义字符。</p>
+<blockquote>
+<p>PPP协议使用同步传输技术传送比特串0110111111111100。试问经过零比特填充后变成怎样的比特串？若接收端收到的PPP帧的数据部分是0001110111110111110110，问删除发送端加入的零比特后变成怎样的比特串？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673237567724.png"><br><strong>注意</strong>：这个是<strong>零比特填充法</strong></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251861163.png"></p>
+<h2 id="差错检测题"><a href="#差错检测题" class="headerlink" title="差错检测题"></a>差错检测题</h2><p>这一类题多为对差错检测方法的考察，其中CRC校验比较重点。</p>
+<blockquote>
+<p>要发送的数据为1101011011.采用CRC的生成多项式P(X) = X^4 + X + 1。试求应添加在数据后面的余数。</p>
+<blockquote>
+<p>数据在传输过程中最后一个1变成了0，问接收端能否发现？<br>若数据在传输过程中最后两个1都变成了0，问接收端能否发现？<br>采用CRC检验后，数据链路层的传输是否就变成了可靠的传输</p>
+</blockquote>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673237018089.png"><br><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673237070875.png" alt="enter description here"></p>
+<p><strong>注意</strong>：二项式除法要会，同时记得先添0在用余数代替。</p>
+<blockquote>
+<p>要发送的数据为101110。采用CRC的生成多项式是P(X) = X^3 + 1。试求应添加在数据后面的余数。</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673237367332.png"></p>
+<h2 id="流量控制题"><a href="#流量控制题" class="headerlink" title="流量控制题"></a>流量控制题</h2><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251986562.png"></p>
+<p><strong>注</strong>：如果没有说明确认帧大小则不要去计算时间。</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251943408.png"></p>
+<p><strong>提醒</strong>：一定要注意单位的换算。</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251956969.png"><br><strong>注</strong>：对于回退N帧协议其窗口大小为2^n-1，选择重传协议窗口大小为2^(n-1)。</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251970406.png"></p>
+<h2 id="媒介访问控制"><a href="#媒介访问控制" class="headerlink" title="媒介访问控制"></a>媒介访问控制</h2><blockquote>
+<p>以太网使用的<strong>CSMA/CD协议</strong>是以争用方式接入到共享信道的。这与传统的时分复用TDM相比优缺点如何？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673250206034.png"><br><strong>我的理解</strong>：网络协议没有好坏之分，只有适用范围之分。</p>
+<blockquote>
+<p>什么叫比特时间？使用这种时间单位有什么好处？100比特时间是多少微秒？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673250457127.png"></p>
+<p><strong>注意</strong>：引入了<code>比特时间</code>的概念，后面题目会用到。</p>
+<blockquote>
+<p>假定1km长的CSMA/CD网络的数据率为1Gbit/s。设信号在网络上的传播速率为200000km/s。求能够使用此协议的最短帧长。</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673250318917.png"></p>
+<p><strong>注意</strong>：计算时需要使用2倍的传播时延。</p>
+<blockquote>
+<p>假定在使用<strong>CSDA/CD协议</strong>的10Mbit/s以太网中，某个站在发送数据时检测到碰撞，执行退避算法时选择了<strong>随机数r=100</strong>。试问这个站需要等待多长时间后才能再次发送数据？如果是100Mbit/s的以太网呢？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673250427747.png"><br><strong>注意</strong>：退避时间 = 争用时间*r；同时比特时间与实际时间的换算要会，就是加一个单位。</p>
+<blockquote>
+<p>假定<strong>站点A和B</strong>在同一个<strong>10Mbit/s</strong>以太网网段上。这两个站点之间的<strong>传播时延为225比特时间</strong>。现假定A开始发送一帧，并且在A发送结束之前B也发送一帧。如果A发送的是以太网所容许的最短的帧，那么A在检测到和B发生碰撞之前能否把自己的数据发送完毕？换言之，如果A在发送完毕之前并没有检测到碰撞，那么能否肯定A所发送的帧不会和B发送的帧发生碰撞？（提示：在计算时应当考虑到每一个以太网帧在发送信道上时，在MAC帧前面还要增加若干字节的前同步码和帧定界符。）</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251056773.png"></p>
+<blockquote>
+<p>在上题中的站点A和B在<strong>t=0时同时发送了数据帧</strong>。当t=225比特时间，A和B同时检测到发生了碰撞，并且在t = 225 + 48 = 273 比特时间完成了干扰信号的传输。A 和 B在CSMA/CD算法中<strong>选择不同的r值退避</strong>。假定A和B选择的随机数分别是 rA = 0 和 rB=1。试问A和B各在什么时间开始重传其数据帧？A重传的数据帧在什么时间到达B？A重传的数据会不会和B重传的数据再次发生碰撞？B会不会在预定的重传时间停止发送数据？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251260098.png"></p>
+<p><strong>注意</strong>：关于碰撞问题需要学会画图分析过程。</p>
+<h2 id="局域网题目"><a href="#局域网题目" class="headerlink" title="局域网题目"></a>局域网题目</h2><blockquote>
+<p><strong>局域网</strong>的主要特点是什么？为什么局域网采用广播通信方式而广域网不采用呢？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673241624781.png"></p>
+<blockquote>
+<p>常用的局域网的<strong>网络拓扑</strong>有哪些种类？现在<strong>最流行的</strong>是哪种结构？为什么早期的以太网选择总线拓扑结构而不使用星型拓扑结构，但现在却改为使用星型拓扑结构？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673249303302.png"></p>
+<blockquote>
+<p>什么叫做传统以太网？以太网有哪两个主要标准？</p>
+</blockquote>
+<p><strong>答</strong>：传统以太网就是最早流行的<strong>10Mbit/s速率</strong>的以太网。</p>
+<p>以太网有两个标准，即<code>DIX Ethernet V2</code>标准 和 <code>IEEE 802.3</code> 标准</p>
+<blockquote>
+<p>数据率为 10Mbit/s 的以太网在物理媒体上的<strong>码元传输速率</strong>是多少码元/秒？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673249373111.png"></p>
+<blockquote>
+<p>为什么LLC子层的标准已制定出来了但现在却很少使用？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673250089281.png"></p>
+<blockquote>
+<p>有10个站连接到以太网上。试计算以下三种情况下每一个站所能得到的带宽。</p>
+<blockquote>
+<p>1）10个站都连接到一个10Mbit/s以太网集线器。<br>2）10个站都连接到一个100Mbit/s以太网集线器。<br>3）10个站都连接到一个10Mbit/s以太网交换机。</p>
+</blockquote>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673250842288.png"></p>
+<p><strong>注意</strong>：判断问的是每一个站所能得到的带宽 还是 总带宽</p>
+<blockquote>
+<p>以太网交换机有何特点？用它怎样组成虚拟局域网？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673250900007.png"><br><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673250915692.png"></p>
+<p><strong>注意</strong>：以太网交换机和集线器的区别要搞懂，特别是在带宽计算上。</p>
+<h2 id="物理设备题"><a href="#物理设备题" class="headerlink" title="物理设备题"></a>物理设备题</h2><blockquote>
+<p><strong>网络适配器</strong>的作用是什么？网络适配器工作在哪一层？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673236179572.png"><br><strong>我的理解</strong>：适配器就是网卡，其作用的发送时进行帧的封装、接收时进行差错检测与帧的交付。</p>
+<blockquote>
+<p>在图T-3-33中，以太网交换机有6个接口，分别接到5台主机和一个路由器。</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251394312.png"></p>
+<p><strong>注意</strong>：填补交换表时，只需要看写入的即可。</p>
+<blockquote>
+<p>图T-3-36表示有五个站分别连接在三个局域网上，并且用网桥B1和B2连接起来。每一个网桥都有两个接口（1和2）。在一开始，两个网桥中的转发表都是空的。以后有以下各站向其他的站按先后顺序发送了数据帧：A发送给E，C发送给B，D发送给C，B发送给A。试把有关数据填写在表T-3-36-a中。</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251746973.png"></p>
+<blockquote>
+<p>假定一个以太网上的通信量中的80%是在本局域网上进行的，而其余的20%的通信量是在本局域网和互联网之间进行的。另一个以太网的情况则反过来。这两个以太网<strong>一个使用以太网集线器</strong>，而<strong>另一个使用以太网交换机</strong>。你认为以太网交换机应当用在哪一个网络上？（本题的目的是要学生能够清楚地知道以太网集线器和以太网交换机的区别。本题并没有一个标准答案。）</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251501185.png"></p>
+<blockquote>
+<p><strong>网桥的工作原理和特点是什么</strong>？<strong>网桥与转发器以及以太网交换机有何异同</strong>？</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1673251640376.png"><br><strong>注意</strong>：区分网桥和集线器、交换机，各自应用层次。</p>
+<hr>
+<blockquote>
+<p><strong>写在最后</strong>：本层的知识点比较多，所以涉及的题目类型也很多，要分门别类去练习，同时与理论知识结合。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Qidangge</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qidangge.github.io/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86/">https://qidangge.github.io/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qidangge.github.io" target="_blank">Qidangge的小小世界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">数据链路层</a></div><div class="post_share"><div class="social-share" data-image="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/"><img class="next-cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">从零开始的计网学习-数据链路层</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="从零开始的计网学习-数据链路层"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">从零开始的计网学习-数据链路层</div></div></a></div><div><a href="/2023/01/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E6%A6%82%E8%BF%B0/" title="从零开始的计网学习-概述"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-04</div><div class="title">从零开始的计网学习-概述</div></div></a></div><div><a href="/2023/01/06/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E7%89%A9%E7%90%86%E5%B1%82/" title="从零开始的计网学习-物理层"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-06</div><div class="title">从零开始的计网学习-物理层</div></div></a></div><div><a href="/2021/10/16/%E4%BD%9C%E4%B8%9A2.1%20%E4%B8%8A%E8%AF%BE%E5%AD%A6%E4%B9%A0--%E8%AE%A1%E7%BD%91%E7%9B%B8%E5%85%B3/" title="初入计网"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-16</div><div class="title">初入计网</div></div></a></div><div><a href="/2021/10/22/%E4%BD%9C%E4%B8%9A3.1%20TCP%E7%9B%B8%E5%85%B3/" title="TCP/IP 协议相关"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back9_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-22</div><div class="title">TCP/IP 协议相关</div></div></a></div><div><a href="/2022/06/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%B8%B8%E8%A7%81%E5%8D%8F%E8%AE%AE%E6%B1%87%E6%80%BB/" title="计算机网络——常见协议汇总"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back9_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-21</div><div class="title">计算机网络——常见协议汇总</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Qidangge</div><div class="author-info__description">欢迎来访</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">73</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">79</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">30</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Qidangge"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Qidangge" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">记录生活与收获！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%BF%85%E9%A1%BB%E8%A6%81%E6%87%82%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E7%AD%94%E6%95%B4%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">一些必须要懂的常见问题与解答整理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%BF%85%E9%A1%BB%E8%A6%81%E6%87%82%E7%9A%84%E9%87%8D%E9%9A%BE%E7%82%B9%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">一些必须要懂的重难点课后习题整理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%E7%90%86%E8%A7%A3%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">概念理解题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">协议原理题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E5%B8%A7%E7%B1%BB%E5%9E%8B%E9%A2%98"><span class="toc-number">2.3.</span> <span class="toc-text">组帧类型题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B%E9%A2%98"><span class="toc-number">2.4.</span> <span class="toc-text">差错检测题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E9%A2%98"><span class="toc-number">2.5.</span> <span class="toc-text">流量控制题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AA%92%E4%BB%8B%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="toc-number">2.6.</span> <span class="toc-text">媒介访问控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E9%A2%98%E7%9B%AE"><span class="toc-number">2.7.</span> <span class="toc-text">局域网题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E8%AE%BE%E5%A4%87%E9%A2%98"><span class="toc-number">2.8.</span> <span class="toc-text">物理设备题</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86/" title="从零开始的计网学习-链路层习题整理"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始的计网学习-链路层习题整理"/></a><div class="content"><a class="title" href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86/" title="从零开始的计网学习-链路层习题整理">从零开始的计网学习-链路层习题整理</a><time datetime="2023-01-10T15:09:20.847Z" title="发表于 2023-01-10 23:09:20">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="从零开始的计网学习-数据链路层"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始的计网学习-数据链路层"/></a><div class="content"><a class="title" href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="从零开始的计网学习-数据链路层">从零开始的计网学习-数据链路层</a><time datetime="2023-01-10T15:09:04.568Z" title="发表于 2023-01-10 23:09:04">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/10/%E4%BB%8E%E5%A4%B4%E5%BC%80%E5%A7%8B%E7%9A%84%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1%E3%80%81%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%AD%A6%E4%B9%A0/" title="从头开始的概率统计、信息论学习"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back5_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从头开始的概率统计、信息论学习"/></a><div class="content"><a class="title" href="/2023/01/10/%E4%BB%8E%E5%A4%B4%E5%BC%80%E5%A7%8B%E7%9A%84%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1%E3%80%81%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%AD%A6%E4%B9%A0/" title="从头开始的概率统计、信息论学习">从头开始的概率统计、信息论学习</a><time datetime="2023-01-10T15:08:27.556Z" title="发表于 2023-01-10 23:08:27">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/06/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E7%89%A9%E7%90%86%E5%B1%82/" title="从零开始的计网学习-物理层"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始的计网学习-物理层"/></a><div class="content"><a class="title" href="/2023/01/06/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E7%89%A9%E7%90%86%E5%B1%82/" title="从零开始的计网学习-物理层">从零开始的计网学习-物理层</a><time datetime="2023-01-06T10:23:25.404Z" title="发表于 2023-01-06 18:23:25">2023-01-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E6%A6%82%E8%BF%B0/" title="从零开始的计网学习-概述"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始的计网学习-概述"/></a><div class="content"><a class="title" href="/2023/01/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E6%A6%82%E8%BF%B0/" title="从零开始的计网学习-概述">从零开始的计网学习-概述</a><time datetime="2023-01-04T12:51:08.376Z" title="发表于 2023-01-04 20:51:08">2023-01-04</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Qidangge</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">与人同行，相约共进</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="来了,就,不要,走了,！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
