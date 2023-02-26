@@ -1,0 +1,336 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>网络安全技术--攻与防 | Qidangge的小小世界</title><meta name="keywords" content="网络安全技术,框架整理"><meta name="author" content="Qidangge"><meta name="copyright" content="Qidangge"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本篇文章为该系列的第一篇，本系列会以网络安全技术这门课程为骨架，构建我自己的安全知识体系。本篇文章主要是一个绪论，对各个技术做一个简述与整理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络安全技术--攻与防">
+<meta property="og:url" content="https://qidangge.github.io/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/index.html">
+<meta property="og:site_name" content="Qidangge的小小世界">
+<meta property="og:description" content="本篇文章为该系列的第一篇，本系列会以网络安全技术这门课程为骨架，构建我自己的安全知识体系。本篇文章主要是一个绪论，对各个技术做一个简述与整理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg">
+<meta property="article:published_time" content="2023-02-26T09:16:04.607Z">
+<meta property="article:modified_time" content="2023-02-26T09:16:33.883Z">
+<meta property="article:author" content="Qidangge">
+<meta property="article:tag" content="网络安全技术">
+<meta property="article:tag" content="框架整理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://qidangge.github.io/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Qidangge","link":"链接: ","source":"来源: Qidangge的小小世界","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '网络安全技术--攻与防',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-26 17:16:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">75</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">82</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Qidangge的小小世界</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">网络安全技术--攻与防</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-26T09:16:04.607Z" title="发表于 2023-02-26 17:16:04">2023-02-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-26T09:16:33.883Z" title="更新于 2023-02-26 17:16:33">2023-02-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%93%E4%B8%9A%E5%9F%BA%E7%A1%80/">专业基础</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%93%E4%B8%9A%E5%9F%BA%E7%A1%80/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/">网络安全技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="网络安全技术--攻与防"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p><strong>写在最前面</strong>：很多技术的学习都需要一定的方法，而关于信息安全的相关知识我的学习方法就是<strong>先完善体系框架</strong>，而后通过实践的方式熟悉<strong>各种网络安全技术</strong>，并分而记之。<br>网络安全知识的学习无非三个字：<strong>攻与防</strong>。本文会以<strong>时间线</strong>的方式梳理<strong>网络防护技术</strong>的发展历程与不同的<strong>网络攻击技术</strong>，为后续具体技术的学习和实践打下基础。</p>
+</blockquote>
+<h1 id="如何判断是否安全？"><a href="#如何判断是否安全？" class="headerlink" title="如何判断是否安全？"></a>如何判断是否安全？</h1><p>在介绍网络信息的攻与防之前，我们需要明确一个概念，即<strong>如何判断是否安全</strong>？这就要从安全属性讲起。</p>
+<h2 id="安全属性"><a href="#安全属性" class="headerlink" title="安全属性"></a>安全属性</h2><p>信息、网络或系统是否安全，主要通过<strong>安全属性</strong>来评估，主要包括以下几个：</p>
+<ul>
+<li><strong>机密性</strong>。即数据或系统不被非授权者获取和泄露。</li>
+<li><strong>完整性</strong>。包括系统完整性和数据完整性，前者指保证系统不被非授权者使用，后者指保证数据不被非授权者修改。</li>
+<li><strong>可用性</strong>。即保证系统可以快速、准确的为授权者服务。</li>
+<li><strong>不可否认性</strong>。通信双方无法否认已经发生的行为，或者说通信双方对各自接收和发生的消息不可抵赖。</li>
+</ul>
+<h2 id="攻击与防御"><a href="#攻击与防御" class="headerlink" title="攻击与防御"></a>攻击与防御</h2><p><strong>网络攻击技术</strong>就是为了破坏上述安全属性，而<strong>网络防护技术</strong>就是为了保证这些安全属性不被破坏。</p>
+<h1 id="网络安全防护技术"><a href="#网络安全防护技术" class="headerlink" title="网络安全防护技术"></a>网络安全防护技术</h1><blockquote>
+<p>下面我们会介绍网络安全防护技术的发展历程，总共可以<strong>分为三个阶段</strong>。</p>
+</blockquote>
+<h2 id="第一代技术：保护"><a href="#第一代技术：保护" class="headerlink" title="第一代技术：保护"></a>第一代技术：保护</h2><p><strong>目标</strong>：以<code>保护</code>为目的，划分<code>明确的网络边界</code>，并采用各种保护和隔离措施在网络边界上阻止非法入侵。</p>
+<p><strong>技术</strong>：<strong>身份认证、访问控制、可信计算基、权限管理、信息加解密</strong>等</p>
+<p><strong>缺点</strong>：无法全面保证信息系统的安全，总有一些入侵会进入网络内部。</p>
+<h2 id="第二代技术：保障"><a href="#第二代技术：保障" class="headerlink" title="第二代技术：保障"></a>第二代技术：保障</h2><p><strong>目的</strong>：既然无法将入侵隔绝在网络边界之外，就要想办法<strong>检测到内部的威胁</strong>，并采取一定的<strong>恢复措施</strong>加以应对。</p>
+<p><strong>技术</strong>：以<code>检测技术</code>为核心、<code>恢复技术</code>为后盾，融合了<code>保护、检测、响应、恢复</code>四大类技术，例如<strong>防火墙、入侵检测系统、虚拟专用网、公钥基础设施、漏洞扫描</strong>等</p>
+<p><strong>缺点</strong>：第二代技术发挥作用的前提在于检测技术可以精确的检测到入侵，但是这是不可能的。也就是说总会存在一些威胁无法被发现。</p>
+<h2 id="第三代技术：顽存"><a href="#第三代技术：顽存" class="headerlink" title="第三代技术：顽存"></a>第三代技术：顽存</h2><p><strong>目的</strong>：如果无法检测到内部的所有威胁，就再退一步，保证系统可以在遭受攻击、故障或意外事故的情况下，在一定时间内仍具有继续执行全部或关键使命的能力。</p>
+<p><strong>技术</strong>：以<code>入侵容忍技术</code>为核心，何为入侵容忍，即在攻击者到达系统甚至已经控制部分子系统时，系统不能丧失其应有的保密性、完整性、真实性、可用性、不可否认性。</p>
+<h2 id="未来发展趋势"><a href="#未来发展趋势" class="headerlink" title="未来发展趋势"></a>未来发展趋势</h2><p>为了应对网络发展的各种挑战，网络安全防护技术将向<code>可信化、网络化、集成化和可视化方向</code>发展。</p>
+<blockquote>
+<p> <strong>可信化</strong>：从传统的计算机安全理念过渡到<strong>以可信计算理念为核心的计算机安全</strong>，并以此为基础来引发安全理论和技术的创新发展。</p>
+</blockquote>
+<p><strong>主要思想</strong>：在硬件平台上引入安全芯片，从而将部分或整个计算平台变为可信的计算平台。</p>
+<blockquote>
+<p><strong>网络化</strong>：因为网络类型和应用的不断变化，如<strong>无线网络到传感器网络到卫星网络</strong>，这些网络的发展也会为网络安全带来新的挑战。</p>
+</blockquote>
+<p>典型实例：云计算。</p>
+<blockquote>
+<p><strong>集成化</strong>：即各种信息安全产品和系统开始从<strong>单一功能向多功能合一</strong>的方向发展。</p>
+</blockquote>
+<blockquote>
+<p><strong>可视化</strong>：将海量的<strong>网络安全态势信息以图形化方式</strong>呈现出来。区别于日志信息的简单分类和归集，可视化的方式可以帮助更好的看清攻击全貌。</p>
+</blockquote>
+<hr>
+<p>承上启下：上文介绍了网络安全防护技术的发展历程与发展趋势，</p>
+<hr>
+<h1 id="网络威胁"><a href="#网络威胁" class="headerlink" title="网络威胁"></a>网络威胁</h1><blockquote>
+<p>在这一节会从一些基本的<strong>安全概念</strong>出发，而后介绍一些<strong>网络威胁的分类和演化历程</strong>，这里不会涉及到具体的网络攻击技术，但是以后学习的各种技术都可以归结到这个体系中。</p>
+</blockquote>
+<h2 id="一些基础概念"><a href="#一些基础概念" class="headerlink" title="一些基础概念"></a>一些基础概念</h2><blockquote>
+<p><code>安全威胁</code>是指某个人、物、事件或概念对某一资源的<strong>机密性、完整性、可用性或合法使用</strong>所造成的危险。某种<strong>攻击</strong>就是某种威胁的具体实现。</p>
+</blockquote>
+<p><strong>注</strong>：这里要区分一下<strong>攻击和威胁</strong>，二者是不同的概念。</p>
+<p>攻击是<strong>已经发生</strong>的事件，而威胁是<strong>潜在的漏洞</strong>。攻击往往要利用一个或者多个威胁。</p>
+<blockquote>
+<p><code>漏洞</code>，也称<strong>系统脆弱性</strong>。是指在防护措施中和在缺少防护措施时系统所<strong>具有的弱点</strong></p>
+</blockquote>
+<blockquote>
+<p><code>风险</code>是关于某个已知的、可能引发某种成功攻击的脆弱性的<strong>代价的测度</strong>。 </p>
+</blockquote>
+<blockquote>
+<p><code>防护措施</code>是指保护资源免受威胁的一些物理的控制、机制、策略和过程。</p>
+</blockquote>
+<h2 id="威胁的分类"><a href="#威胁的分类" class="headerlink" title="威胁的分类"></a>威胁的分类</h2><p>具体如下图，根据不同的分类依据可以有很多划分。</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677400977852.png"></p>
+<p>下面给出一个比较具体的分类方法：从攻击目的分类</p>
+<blockquote>
+<p>中断攻击</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401116547.png"></p>
+<blockquote>
+<p>窃听攻击</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401141884.png"></p>
+<blockquote>
+<p>篡改攻击</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401172009.png"></p>
+<blockquote>
+<p>伪造攻击</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401197267.png"></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401265173.png"></p>
+<h2 id="网络威胁的原因"><a href="#网络威胁的原因" class="headerlink" title="网络威胁的原因"></a>网络威胁的原因</h2><p>网络威胁的产生有如下几个原因：</p>
+<ul>
+<li>人们<strong>认识能力和实践能力的局限性</strong>。计算机的功能远远超出了当初设计计算机的功能，超出了当初的想象。计算机网络的应用远远超出当初网络设计的想象。</li>
+<li>随着计算机应用的普及和深入，<strong>软件系统的规模越来越大，越来越复杂</strong>，以至于其复杂性超出了人们控制和理解范围，软件中的漏洞不可避免。尽管软件工程理论与方法不断完善，但远远不能满足软件应用的安全需求。</li>
+<li>在计算机系统方面，还面临<strong>着硬件、网络等方面</strong>的安全隐患。</li>
+<li>除了技术因素外，<strong>管理疏漏</strong>也是造成信息安全问题的主要原因之一</li>
+</ul>
+<h2 id="网络威胁演化"><a href="#网络威胁演化" class="headerlink" title="网络威胁演化"></a>网络威胁演化</h2><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401457250.png"></p>
+<p>如上图所示，将网络威胁进行了分类，也是网络威胁的演化历程。</p>
+<h3 id="网络空间单点攻击"><a href="#网络空间单点攻击" class="headerlink" title="网络空间单点攻击"></a>网络空间单点攻击</h3><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401546740.png"></p>
+<ul>
+<li>人员<strong>数量较少</strong>：一般由个人或小规模团队组成。</li>
+<li>目标<strong>规模较小</strong>：一般针对个人账号(邮箱账号、论坛账号)、主机终端(windows终端、Linux终端、MAC终端)移动终端(Android、iPhone)、应用服务器(web服务器、邮件服务器)、网络设备(路由器、防火墙、安防设备)等有限目标实施攻击。</li>
+<li>装备<strong>性能一般</strong>：一般使用公开漏洞或开源渗透工具作为主要实施作战。</li>
+<li>攻击<strong>协同不多</strong>：攻击人员一般全程参与攻击全过程，较少配合。</li>
+<li>支撑<strong>资源有限</strong>：一般通过虚拟专用网、邮箱、DNS等资源开展行动。</li>
+<li>作战<strong>目标单一</strong>：以获取网络目标情报信息为主要目的。</li>
+</ul>
+<h3 id="网络空间系统攻击"><a href="#网络空间系统攻击" class="headerlink" title="网络空间系统攻击"></a>网络空间系统攻击</h3><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401622191.png"></p>
+<ul>
+<li>攻击力量<strong>协同更加频繁</strong>：参与攻击人员分工更加细致，除了渗透人员、情报分析人员、漏洞分析工具研发人员之外，还有行业机构专家参与其中，实施攻击前往往需要在模拟环境下进行演练。</li>
+<li>目标<strong>环境更加复杂多样</strong>：大型机构一般采用跨网跨域网络环境，包含互联网、DMZ、办公内网、核心业务网等多种场景，在这些这些场景下网络资产类型、网络防护机制、网络组网方式都不尽相同，如图所示。</li>
+<li>攻击<strong>装备品类全性能高</strong>：往往利用<strong>0Day漏洞</strong>利用工具突破大型机构的内部网络和核心系统资产，此外进入内网通过后<strong>横向移动和持久化工具</strong>完成后续操作。</li>
+</ul>
+<h3 id="网络空间系统攻击对抗"><a href="#网络空间系统攻击对抗" class="headerlink" title="网络空间系统攻击对抗"></a>网络空间系统攻击对抗</h3><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401688189.png"></p>
+<h3 id="网络空间体系攻击对抗态势"><a href="#网络空间体系攻击对抗态势" class="headerlink" title="网络空间体系攻击对抗态势"></a>网络空间体系攻击对抗态势</h3><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401719223.png"></p>
+<ul>
+<li><strong>投入巨大</strong>：体系建设需要投入大量人力、物力和财力，同时还要具有相当强的技术储备，以美国为例，其在网络空间体系建设方面投入了数百亿美元，才建立起相对完整的体系。</li>
+<li><strong>体系庞大</strong>：以美国为例，无论是攻击体系还是防御体系均由众多项目组成;其中最大的支撑架构称为“湍流”(TURBULENCE)，由多个系统组成，包括主动情报采集系统 TUMULT、被动情报采集系统 TURMOIL、任务逻辑控制系统 TURBINE、进攻性网空行动系统“量 子”(QUANTUM)、主动防御系统 TUTELAGE(带有积极防御的 CND主要实现)、密码服务 LONGHAUL、数据仓库 PRESSUREWAVE、网络流量分析系统 TRAFFICTHIEF 和信号情报分析系统CLUSTER WEALTH-2 等。这些系统各司其职，共同支撑信息收集、情报分析、积极防御、决策控制、网络作业等网空行动的攻击性行动环节，共同构成了美国强大的网络空间进攻性能力支撑体系。</li>
+<li><strong>目标多样</strong>：无论是个体目标还是关键基础设施目标，无论是单一场景还是复杂场景，均能体系中找到对应能力支撑。</li>
+</ul>
+<h3 id="网络空间联合攻击对抗态势"><a href="#网络空间联合攻击对抗态势" class="headerlink" title="网络空间联合攻击对抗态势"></a>网络空间联合攻击对抗态势</h3><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401780357.png"></p>
+<ul>
+<li><strong>军种联合协同</strong>：海陆空天网多军种联合作战，网络攻击作为军事作战行动的一部分，能够为其他军种提供行动配合、情报支持、舆论引导等作用。</li>
+<li><strong>突出军事效益</strong>：网络攻击目标往往是军事指挥系统或者能够对军事行动造成影响的各种目标。</li>
+<li><strong>攻击样式多样</strong>：网络联合作战主要开展对目标的致瘫、拒绝、扰乱、欺骗等软杀伤和硬损毁网络攻击。</li>
+</ul>
+<h3 id="网络空间总体攻击对抗态势"><a href="#网络空间总体攻击对抗态势" class="headerlink" title="网络空间总体攻击对抗态势"></a>网络空间总体攻击对抗态势</h3><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677401803264.png"></p>
+<ul>
+<li><strong>战略驱动</strong>：网络攻击行动与各个国家战略目标相衔接，可以作为实现国家战略意图的一种新型手段。</li>
+<li><strong>全维对抗</strong>：和军事战、政治战、外交战、经济战、心理战、媒体战、文化战等多种斗争形态配合，在全方位对抗中发挥突出作用。</li>
+</ul>
+<blockquote>
+<p><strong>本小节总结</strong>：这里对于网络威胁的演化分析不是基于技术的，而是从全局、实际出发，这里只需要有一个大体了解即可，对于学生来说还是要<strong>落到具体的技术</strong>上。</p>
+</blockquote>
+<h1 id="TCP-IP协议栈的安全性"><a href="#TCP-IP协议栈的安全性" class="headerlink" title="TCP/IP协议栈的安全性"></a>TCP/IP协议栈的安全性</h1><blockquote>
+<p>这里把<strong>TCP\IP协议栈的安全性</strong>从网络安全威胁中独立出来，因为这些知识具备整体性，可以单独作为一个知识体系进行学习。</p>
+</blockquote>
+<h2 id="TCP-IP协议栈"><a href="#TCP-IP协议栈" class="headerlink" title="TCP\IP协议栈"></a>TCP\IP协议栈</h2><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677402297067.png"></p>
+<p>注意“栈”不是两个协议，而是<strong>一族协议</strong>。在一个问题一个协议的原则指导下，已被正式记录在案的TCP/IP协议数量接近4000多个。并且每个协议的实现也不一样，并且良莠不齐。</p>
+<p>这里我们主要介绍的是<strong>以下协议</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1677402358099.png"></p>
+<h2 id="TCP-IP协议脆弱性表现"><a href="#TCP-IP协议脆弱性表现" class="headerlink" title="TCP/IP协议脆弱性表现"></a>TCP/IP协议脆弱性表现</h2><ul>
+<li>因特网体系结构安全问题</li>
+<li>IP协议及其安全缺陷</li>
+<li>ICMP协议及其安全缺陷</li>
+<li>UDP协议及其安全缺陷</li>
+<li>TCP协议及其安全缺陷</li>
+<li>ARP协议及其安全缺陷</li>
+</ul>
+<p>每一个协议都有其可以被攻击者利用的点。<br>如果只是想理解的话，举个例子也许更合适，现在的<strong>网络可以理解成交通网络</strong>，包括海陆空、高速、省县等路， 而<strong>TCP/IP则可以理解成相就的交通法规</strong>， <strong>网络安全则理解成交通安全</strong>。<br>因为路网本身是有交规管理的，但是否安全，则还取决于人和交通工具</p>
+<h3 id="因特网体系结构安全问题"><a href="#因特网体系结构安全问题" class="headerlink" title="因特网体系结构安全问题"></a>因特网体系结构安全问题</h3><ul>
+<li>资源共享与分组交换</li>
+<li>认证与可追踪性</li>
+<li>尽力而为的服务策略</li>
+<li>匿名与隐私</li>
+<li>全球网络基础实施的脆弱性</li>
+<li>无尺度网络（CDN Loop攻击）</li>
+<li>级联结构（数字大炮）</li>
+<li>端到端原则</li>
+</ul>
+<h3 id="IP协议及其安全缺陷"><a href="#IP协议及其安全缺陷" class="headerlink" title="IP协议及其安全缺陷"></a>IP协议及其安全缺陷</h3><ul>
+<li>IP协议没有认证机制</li>
+<li>数据包分片</li>
+<li>寻址与协议选项</li>
+<li>访问控制与带宽控制</li>
+</ul>
+<h3 id="ICMP协议及其安全缺陷"><a href="#ICMP协议及其安全缺陷" class="headerlink" title="ICMP协议及其安全缺陷"></a>ICMP协议及其安全缺陷</h3><ul>
+<li>利用“目的不可达”报文对攻击目标发起DOS攻击</li>
+<li>利用“改变路由”报文破坏路由表，导致网络瘫痪</li>
+<li>木马利用ICMP协议报文进行隐蔽通信</li>
+<li>利用“回送（Echo）请求或回答”报文进行网络扫描或DOS攻击</li>
+</ul>
+<h3 id="UDP协议及其安全缺陷"><a href="#UDP协议及其安全缺陷" class="headerlink" title="UDP协议及其安全缺陷"></a>UDP协议及其安全缺陷</h3><p>UDP协议可以用来发起风暴型DOS攻击</p>
+<h3 id="TCP协议及其安全缺陷"><a href="#TCP协议及其安全缺陷" class="headerlink" title="TCP协议及其安全缺陷"></a>TCP协议及其安全缺陷</h3><ul>
+<li>由于主机或服务器所允许建立的TCP连接数是有限的，因此攻击者常常利用TCP全连接或半连接来对目标发起DOS攻击，如SYN Flood攻击、TCP连接耗尽型攻击等。</li>
+<li>序号预测。</li>
+<li>网络扫描。</li>
+</ul>
+<h3 id="ARP协议及其安全缺陷"><a href="#ARP协议及其安全缺陷" class="headerlink" title="ARP协议及其安全缺陷"></a>ARP协议及其安全缺陷</h3><ul>
+<li>网络嗅探。</li>
+<li>阻止目标的数据包通过网关。</li>
+</ul>
+<p><strong>注</strong>：这里只是简要介绍一下协议的缺陷，具体的含义和实现方法在后续学习中会逐步深入。</p>
+<hr>
+<blockquote>
+<p><strong>写在最后</strong>：本篇文章从理论上介绍了网络安全的基本概念，又介绍了网络安全防护技术的发展历程和网络威胁的演化，其中并没有涉及到具体的技术细节，但是一个初始的框架已经搭好，后续会不断完善。最后，网络安全技术的学习<code>重在实践，不可流于表面</code>。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Qidangge</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qidangge.github.io/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/">https://qidangge.github.io/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qidangge.github.io" target="_blank">Qidangge的小小世界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/">网络安全技术</a><a class="post-meta__tags" href="/tags/%E6%A1%86%E6%9E%B6%E6%95%B4%E7%90%86/">框架整理</a></div><div class="post_share"><div class="social-share" data-image="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/01/11/MindSpore-%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/"><img class="next-cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MindSpore-手写数字识别</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Qidangge</div><div class="author-info__description">欢迎来访</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">75</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">82</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Qidangge"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Qidangge" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">记录生活与收获！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">如何判断是否安全？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%B1%9E%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text">安全属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E4%B8%8E%E9%98%B2%E5%BE%A1"><span class="toc-number">1.2.</span> <span class="toc-text">攻击与防御</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E6%8A%80%E6%9C%AF"><span class="toc-number">2.</span> <span class="toc-text">网络安全防护技术</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%BB%A3%E6%8A%80%E6%9C%AF%EF%BC%9A%E4%BF%9D%E6%8A%A4"><span class="toc-number">2.1.</span> <span class="toc-text">第一代技术：保护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E4%BB%A3%E6%8A%80%E6%9C%AF%EF%BC%9A%E4%BF%9D%E9%9A%9C"><span class="toc-number">2.2.</span> <span class="toc-text">第二代技术：保障</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E4%BB%A3%E6%8A%80%E6%9C%AF%EF%BC%9A%E9%A1%BD%E5%AD%98"><span class="toc-number">2.3.</span> <span class="toc-text">第三代技术：顽存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AA%E6%9D%A5%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF"><span class="toc-number">2.4.</span> <span class="toc-text">未来发展趋势</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81"><span class="toc-number">3.</span> <span class="toc-text">网络威胁</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-number">3.1.</span> <span class="toc-text">一些基础概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A8%81%E8%83%81%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">3.2.</span> <span class="toc-text">威胁的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">3.3.</span> <span class="toc-text">网络威胁的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%BC%94%E5%8C%96"><span class="toc-number">3.4.</span> <span class="toc-text">网络威胁演化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E5%8D%95%E7%82%B9%E6%94%BB%E5%87%BB"><span class="toc-number">3.4.1.</span> <span class="toc-text">网络空间单点攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E7%B3%BB%E7%BB%9F%E6%94%BB%E5%87%BB"><span class="toc-number">3.4.2.</span> <span class="toc-text">网络空间系统攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E7%B3%BB%E7%BB%9F%E6%94%BB%E5%87%BB%E5%AF%B9%E6%8A%97"><span class="toc-number">3.4.3.</span> <span class="toc-text">网络空间系统攻击对抗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E4%BD%93%E7%B3%BB%E6%94%BB%E5%87%BB%E5%AF%B9%E6%8A%97%E6%80%81%E5%8A%BF"><span class="toc-number">3.4.4.</span> <span class="toc-text">网络空间体系攻击对抗态势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E8%81%94%E5%90%88%E6%94%BB%E5%87%BB%E5%AF%B9%E6%8A%97%E6%80%81%E5%8A%BF"><span class="toc-number">3.4.5.</span> <span class="toc-text">网络空间联合攻击对抗态势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%80%BB%E4%BD%93%E6%94%BB%E5%87%BB%E5%AF%B9%E6%8A%97%E6%80%81%E5%8A%BF"><span class="toc-number">3.4.6.</span> <span class="toc-text">网络空间总体攻击对抗态势</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-IP%E5%8D%8F%E8%AE%AE%E6%A0%88%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-number">4.</span> <span class="toc-text">TCP&#x2F;IP协议栈的安全性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP%E5%8D%8F%E8%AE%AE%E6%A0%88"><span class="toc-number">4.1.</span> <span class="toc-text">TCP\IP协议栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP%E5%8D%8F%E8%AE%AE%E8%84%86%E5%BC%B1%E6%80%A7%E8%A1%A8%E7%8E%B0"><span class="toc-number">4.2.</span> <span class="toc-text">TCP&#x2F;IP协议脆弱性表现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%A0%E7%89%B9%E7%BD%91%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="toc-number">4.2.1.</span> <span class="toc-text">因特网体系结构安全问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E5%AE%89%E5%85%A8%E7%BC%BA%E9%99%B7"><span class="toc-number">4.2.2.</span> <span class="toc-text">IP协议及其安全缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ICMP%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E5%AE%89%E5%85%A8%E7%BC%BA%E9%99%B7"><span class="toc-number">4.2.3.</span> <span class="toc-text">ICMP协议及其安全缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E5%AE%89%E5%85%A8%E7%BC%BA%E9%99%B7"><span class="toc-number">4.2.4.</span> <span class="toc-text">UDP协议及其安全缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E5%AE%89%E5%85%A8%E7%BC%BA%E9%99%B7"><span class="toc-number">4.2.5.</span> <span class="toc-text">TCP协议及其安全缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E5%AE%89%E5%85%A8%E7%BC%BA%E9%99%B7"><span class="toc-number">4.2.6.</span> <span class="toc-text">ARP协议及其安全缺陷</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/" title="网络安全技术--攻与防"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网络安全技术--攻与防"/></a><div class="content"><a class="title" href="/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/" title="网络安全技术--攻与防">网络安全技术--攻与防</a><time datetime="2023-02-26T09:16:04.607Z" title="发表于 2023-02-26 17:16:04">2023-02-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/11/MindSpore-%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" title="MindSpore-手写数字识别"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MindSpore-手写数字识别"/></a><div class="content"><a class="title" href="/2023/01/11/MindSpore-%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" title="MindSpore-手写数字识别">MindSpore-手写数字识别</a><time datetime="2023-01-11T04:57:42.933Z" title="发表于 2023-01-11 12:57:42">2023-01-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86/" title="从零开始的计网学习-链路层习题整理"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始的计网学习-链路层习题整理"/></a><div class="content"><a class="title" href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86/" title="从零开始的计网学习-链路层习题整理">从零开始的计网学习-链路层习题整理</a><time datetime="2023-01-10T15:09:20.847Z" title="发表于 2023-01-10 23:09:20">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="从零开始的计网学习-数据链路层"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back5_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始的计网学习-数据链路层"/></a><div class="content"><a class="title" href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="从零开始的计网学习-数据链路层">从零开始的计网学习-数据链路层</a><time datetime="2023-01-10T15:09:04.568Z" title="发表于 2023-01-10 23:09:04">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/10/%E4%BB%8E%E5%A4%B4%E5%BC%80%E5%A7%8B%E7%9A%84%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1%E3%80%81%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%AD%A6%E4%B9%A0/" title="从头开始的概率统计、信息论学习"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back3_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从头开始的概率统计、信息论学习"/></a><div class="content"><a class="title" href="/2023/01/10/%E4%BB%8E%E5%A4%B4%E5%BC%80%E5%A7%8B%E7%9A%84%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1%E3%80%81%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%AD%A6%E4%B9%A0/" title="从头开始的概率统计、信息论学习">从头开始的概率统计、信息论学习</a><time datetime="2023-01-10T15:08:27.556Z" title="发表于 2023-01-10 23:08:27">2023-01-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Qidangge</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">与人同行，相约共进</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="来了,就,不要,走了,！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
