@@ -1,0 +1,411 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>网络安全技术--信息侦察 | Qidangge的小小世界</title><meta name="keywords" content="网络安全技术,信息侦查"><meta name="author" content="Qidangge"><meta name="copyright" content="Qidangge"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本篇文章用于记录网络侦察技术的相关使用，主要是工具的汇总。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络安全技术--信息侦察">
+<meta property="og:url" content="https://qidangge.github.io/2023/03/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E4%BF%A1%E6%81%AF%E4%BE%A6%E5%AF%9F/index.html">
+<meta property="og:site_name" content="Qidangge的小小世界">
+<meta property="og:description" content="本篇文章用于记录网络侦察技术的相关使用，主要是工具的汇总。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg">
+<meta property="article:published_time" content="2023-03-10T13:36:09.134Z">
+<meta property="article:modified_time" content="2023-03-10T13:36:26.641Z">
+<meta property="article:author" content="Qidangge">
+<meta property="article:tag" content="网络安全技术">
+<meta property="article:tag" content="信息侦查">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://qidangge.github.io/2023/03/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E4%BF%A1%E6%81%AF%E4%BE%A6%E5%AF%9F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Qidangge","link":"链接: ","source":"来源: Qidangge的小小世界","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '网络安全技术--信息侦察',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-10 21:36:26'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">76</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">85</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Qidangge的小小世界</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">网络安全技术--信息侦察</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-10T13:36:09.134Z" title="发表于 2023-03-10 21:36:09">2023-03-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-10T13:36:26.641Z" title="更新于 2023-03-10 21:36:26">2023-03-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%93%E4%B8%9A%E5%9F%BA%E7%A1%80/">专业基础</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%93%E4%B8%9A%E5%9F%BA%E7%A1%80/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/">网络安全技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="网络安全技术--信息侦察"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="工具1：搜索引擎检索规则"><a href="#工具1：搜索引擎检索规则" class="headerlink" title="工具1：搜索引擎检索规则"></a>工具1：搜索引擎检索规则</h1><blockquote>
+<p><strong>目的</strong>：通过在搜索引擎检索栏输入对应的指令可以进行高级搜索，以获取更加精确的搜索结果。 </p>
+</blockquote>
+<blockquote>
+<p>下面是<strong>常用的检索规则汇总</strong>：</p>
+</blockquote>
+<ul>
+<li><code>site:[域]</code><ul>
+<li>用途：返回与<strong>特定域相关</strong>的检索结果；</li>
+<li>示例：site:guet.edu.cn 考试 （在guet.edu.cn域中查找含有“考试”的结果）。</li>
+</ul>
+</li>
+<li><code>link:[Web页面]</code><ul>
+<li>用途：给出和<strong>指定Web页面相链接</strong>的站点，可能泄露目标站点的业务关系；</li>
+<li>示例：link:guet.edu.cn （查看和guet.edu.cn相链接的所有站点）</li>
+</ul>
+</li>
+<li><code>intitle:[条件]</code><ul>
+<li>用途：用于检索<strong>标题中含有特定检索文本</strong>的页面。</li>
+<li>示例：site:guet.edu.cn intitle: 徐华蕊 (查看guet.edu.cn站点中标题是否包含有“徐华蕊”的网页)。</li>
+</ul>
+</li>
+<li><code>related:[站点]</code></li>
+<li>用途：显示<strong>与特定的检索页面类似</strong>的Web页面；</li>
+<li>示例：related:guet.edu.cn。</li>
+<li><code>cache:[页面]</code><ul>
+<li>用途：显示来自于<strong>Baidu快照的页面内容</strong>。对于查找最近被移出或当前不可用的页面时非常有用；</li>
+<li>示例：<code>cache:www.csdn.net</code> （查找www. csdn.net中最近被Baidu bot抓取的页面）。</li>
+</ul>
+</li>
+<li><code>filetype:[后缀]</code><ul>
+<li>用途：检索<strong>特定类型的文件</strong>；</li>
+<li>示例：filetype:ppt site:www .csdn.net （查找ww w.csdn.net中所有的ppt文件）</li>
+</ul>
+</li>
+<li><code>Not（－）</code><ul>
+<li>用途：过滤Web页面中所包含的特定条件；</li>
+<li>示例：苹果 –水果。</li>
+</ul>
+</li>
+<li><code>Plus（+）</code><ul>
+<li>用途：告诉Baidu<strong>不应该把某个词过滤掉</strong>（注意：不是告诉Baidu所有的页面都要包含某个条件）；</li>
+<li>示例：site:ww w.csdn.net +how +the。</li>
+</ul>
+</li>
+</ul>
+<p><strong>一个实例</strong>：搜索引擎获取 4399游戏中带有“造梦西游”的网页？</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1678445871698.png"></p>
+<h1 id="工具2：Shodan与ZoomEy"><a href="#工具2：Shodan与ZoomEy" class="headerlink" title="工具2：Shodan与ZoomEy"></a>工具2：Shodan与ZoomEy</h1><blockquote>
+<p><strong>目的</strong>：获取<strong>联网设备信息</strong></p>
+</blockquote>
+<blockquote>
+<p>常用网站：</p>
+</blockquote>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.shodan.io/">Shodan网站</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zoomeye.org/">ZoomEy网站</a></li>
+</ol>
+<blockquote>
+<p><strong>检索过滤规则</strong>：以钟馗之眼为例</p>
+</blockquote>
+<ul>
+<li>搜索范围覆盖设备(IPv4、IPv6)及网站(域名)，可以<strong>提交URL参数 t</strong> 进行指定类型 t=v4为 IPv4，t=v6为 IPv6，t=web为域名（或可通过搜索结果侧栏点击对应搜索内容）</li>
+<li>直接输入搜索字符串会认定为“全局”进行匹配搜索关键词，会从http等协议内容(包括http头、html内容等)、ssl证书、组件名等进行匹配搜索。</li>
+<li>搜索字符串<strong>不区分大小写</strong>，会进行分词后匹配(搜索结果页面提供了“分词”测试功能)</li>
+<li>搜索<strong>字符串请使用引号</strong>（如”Cisco Systems”或’Cisco Systems’）， 如不然空格会认定为逻辑 or 运算符，如果搜索字符串里存在引号可以使用 \ 进行转义 比如: “a&quot;b”,如果搜索字符串里存在括号可以使用 \ 进行转义 比如: portinfo()</li>
+</ul>
+<p><strong>逻辑运算：</strong></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1678446225264.png"></p>
+<p><strong>地理位置</strong>：</p>
+<ul>
+<li><code>country</code>:”CN”<ul>
+<li>搜索<strong>国家地区</strong>资产</li>
+<li>可以使用国家缩写，也可以使用中/英文全称如country:”中国”country:”china”</li>
+</ul>
+</li>
+<li><code>subdivisions</code>:”beijing”<ul>
+<li>搜索相关<strong>指定行政区</strong>的资产</li>
+<li>中国省会支持中文及英文描述搜索如subdivisions:”北京”subdivisions:”beijing”</li>
+</ul>
+</li>
+<li><code>city</code>:”changsha”<ul>
+<li>搜索<strong>相关城市资产</strong></li>
+<li>中国城市支持中文及英文描述搜索如city:”changsha”city:”长沙”</li>
+</ul>
+</li>
+</ul>
+<p><strong>证书搜索</strong>：</p>
+<ul>
+<li><code>ssl</code>:”google”<ul>
+<li>搜索ssl证书存在”google”字符串的资产</li>
+<li>常常用来<strong>提过产品名及公司名</strong>搜索对应目标</li>
+</ul>
+</li>
+<li><code>ssl.cert.availability</code>:1<ul>
+<li>搜索证书是否在有效期内</li>
+<li>证书在有效期内ssl.cert.availability:1</li>
+<li>证书不在有效期内ssl.cert.availability:0</li>
+</ul>
+</li>
+<li><code>ssl.cert.fingerprint</code>:”F3C98F223D82CC41CF83D94671CCC6C69873FABF”<ul>
+<li>搜索证书相关指纹资产</li>
+</ul>
+</li>
+<li><code>ssl.chain_count</code>:3<ul>
+<li>搜索<strong>ssl链计数资产</strong></li>
+</ul>
+</li>
+<li><code>ssl.cert.alg</code>:”SHA256-RSA”<ul>
+<li>搜索证书支持的<strong>签名算法</strong></li>
+</ul>
+</li>
+<li><code>ssl.cert.issuer.cn</code>:”pbx.wildix.com”<ul>
+<li>搜索用户证书签发者通用域名名称</li>
+</ul>
+</li>
+<li><code>ssl.cert.pubkey.rsa.bits</code>:2048<ul>
+<li>搜索rsa_bits证书公钥位数</li>
+</ul>
+</li>
+<li><code>ssl.cert.pubkey.ecdsa.bits</code>:256</li>
+<li>搜索ecdsa_bits证书<strong>公钥位数</strong></li>
+<li><code>ssl.cert.pubkey.type</code>:”RSA”<ul>
+<li>搜索证书的<strong>公钥类型</strong></li>
+</ul>
+</li>
+<li><code>ssl.cert.serial</code>:”18460192207935675900910674501”<ul>
+<li>搜索<strong>证书序列号</strong></li>
+</ul>
+</li>
+<li><code>ssl.cipher.bits</code>:”128”<ul>
+<li>搜索<strong>加密套件位数</strong></li>
+</ul>
+</li>
+<li><code>ssl.cipher.name</code>:”TLS_AES_128_GCM_SHA256”</li>
+<li>搜索加密套件名称</li>
+<li><code>ssl.cipher.version</code>:”TLSv1.3”</li>
+<li>搜索加密套件版本</li>
+<li><code>ssl.version</code>:”TLSv1.3”<ul>
+<li>搜索证书的ssl版本</li>
+</ul>
+</li>
+<li><code>ssl.cert.subject.cn</code>:”baidu.com”<ul>
+<li>搜索用户证书持有者通用域名名称</li>
+</ul>
+</li>
+</ul>
+<p><strong>ip及域名相关信息：</strong></p>
+<ul>
+<li><code>ip</code>:”8.8.8.8”<ul>
+<li>搜索指定<strong>IPv4地址</strong>相关资产</li>
+</ul>
+</li>
+<li><code>ip</code>:”2600:3c00::f03c:91ff:fefc:574a”<ul>
+<li>搜索指定<strong>IPv6地址</strong>相关资产</li>
+</ul>
+</li>
+<li><code>cidr</code>:52.2.254.36/24<ul>
+<li>搜索<strong>IP的C段资产</strong></li>
+<li>cidr:52.2.254.36/16 为IP的B段资产 cidr:52.2.254.36/8 为IP的A段资产,如cidr:52.2.254.36/16cidr:52.2.254.36/8</li>
+</ul>
+</li>
+<li><code>org</code>:”北京大学” 或者organization:”北京大学”<ul>
+<li>搜索<strong>相关组织</strong>(Organization)的资产</li>
+<li>常常用来定位大学、结构、大型互联网公司对应IP资产</li>
+</ul>
+</li>
+<li><code>isp</code>:”China Mobile”<ul>
+<li>搜索相关<strong>网络服务提供商</strong>的资产</li>
+<li>可结合org数据相互补充</li>
+</ul>
+</li>
+<li><code>asn</code>:42893<ul>
+<li>搜索对应<strong>ASN（Autonomous system number）自治系统</strong>编号相关IP资产</li>
+</ul>
+</li>
+<li><code>port</code>:80<ul>
+<li>搜索相关<strong>端口资产</strong></li>
+<li>目前不支持同时开放多端口目标搜索</li>
+</ul>
+</li>
+<li><code>hostname</code>:google.com<ul>
+<li>搜索相关IP”主机名”的资产</li>
+</ul>
+</li>
+<li><code>site</code>:baidu.com<ul>
+<li>搜索<strong>域名相关</strong>的资产</li>
+<li>常常使用来搜索子域名匹配</li>
+</ul>
+</li>
+</ul>
+<p><strong>指纹相关：</strong></p>
+<ul>
+<li><code>app</code>:”Cisco ASA SSL VPN”<ul>
+<li>搜索<strong>思科ASA-SSL-VPN</strong>的设备</li>
+<li>更多的app规则请参考”导航”，在搜索框输入cisco等关键词会有相关app提示</li>
+</ul>
+</li>
+<li><code>service</code>:”ssh”<ul>
+<li>搜索<strong>对应服务协议</strong>的资产</li>
+<li>常见服务协议包括：http、ftp、ssh、telnet等等(其他服务可参考搜索结果域名侧栏聚合展示)</li>
+</ul>
+</li>
+<li><code>device</code>:”router”<ul>
+<li>搜索<strong>路由器相关</strong>的设备类型</li>
+<li>常见类型包括router(路由器)、switch(交换机)、storage-misc(存储设备)等等(其他类型可参考搜索结果域名侧栏聚合展示)</li>
+</ul>
+</li>
+<li><code>os</code>:”RouterOS”<ul>
+<li>搜索<strong>相关操作系统</strong></li>
+<li>常见系统包括Linux、Windows、RouterOS、IOS、JUNOS等等(其他系统可参考搜索结果域名侧栏聚合展示)</li>
+</ul>
+</li>
+<li><code>title</code>:”Cisco”<ul>
+<li>搜索html<strong>内容里标题</strong>中存在”Cisco”的数据</li>
+</ul>
+</li>
+<li><code>industry</code>:”政府”<ul>
+<li>搜索<strong>行业类型相关</strong>的资产</li>
+<li>常见的行业类型包括科技、能源、金融制造业等等（其他类型可结合org数据相互补充）</li>
+</ul>
+</li>
+</ul>
+<p><strong>时间节点：</strong></p>
+<ul>
+<li><code>after</code>:”2020-01-01” +port:”50050”<ul>
+<li>搜索更新时间为”2020-01-01”端口为”50050”以后的资产</li>
+<li>时间过滤器需组合其他过滤器使用</li>
+</ul>
+</li>
+<li><code>before</code>:”2020-01-01” +port:”50050”<ul>
+<li>搜索更新时间在”2020-01-01”端口为”50050”以前的资产</li>
+<li>时间过滤器需组合其他过滤器使用</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>实例</strong>：搜索中国2023年3月9日安装Linux系统的主机信息？</p>
+</blockquote>
+<p>使用检索指令：<code>os:&quot;Linux&quot;+after:&quot;2023-03-10&quot;+country:&quot;CN&quot;</code></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1678455015181.png"></p>
+<h1 id="工具3：Whois查询"><a href="#工具3：Whois查询" class="headerlink" title="工具3：Whois查询"></a>工具3：Whois查询</h1><blockquote>
+<p><strong>目的</strong>：可以获取到<strong>域名的注册资料</strong>等相关信息</p>
+</blockquote>
+<blockquote>
+<p><strong>两个网站</strong>：</p>
+</blockquote>
+<ol>
+<li>138搜索网（国际版）</li>
+<li><a target="_blank" rel="noopener" href="https://whois.domaintools.com/">https://whois.domaintools.com/</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Qidangge</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qidangge.github.io/2023/03/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E4%BF%A1%E6%81%AF%E4%BE%A6%E5%AF%9F/">https://qidangge.github.io/2023/03/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E4%BF%A1%E6%81%AF%E4%BE%A6%E5%AF%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qidangge.github.io" target="_blank">Qidangge的小小世界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/">网络安全技术</a><a class="post-meta__tags" href="/tags/%E4%BF%A1%E6%81%AF%E4%BE%A6%E6%9F%A5/">信息侦查</a></div><div class="post_share"><div class="social-share" data-image="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/10/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0/"><img class="prev-cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">系统安全复习</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/"><img class="next-cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">网络安全技术--攻与防</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/" title="网络安全技术--攻与防"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-26</div><div class="title">网络安全技术--攻与防</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Qidangge</div><div class="author-info__description">欢迎来访</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">76</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">85</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Qidangge"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Qidangge" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">记录生活与收获！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E5%85%B71%EF%BC%9A%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E6%A3%80%E7%B4%A2%E8%A7%84%E5%88%99"><span class="toc-number">1.</span> <span class="toc-text">工具1：搜索引擎检索规则</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E5%85%B72%EF%BC%9AShodan%E4%B8%8EZoomEy"><span class="toc-number">2.</span> <span class="toc-text">工具2：Shodan与ZoomEy</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E5%85%B73%EF%BC%9AWhois%E6%9F%A5%E8%AF%A2"><span class="toc-number">3.</span> <span class="toc-text">工具3：Whois查询</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/03/15/%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8-%E4%BF%A1%E6%81%AF%E5%86%85%E5%AE%B9%E7%9A%84%E8%8E%B7%E5%8F%96/" title="内容安全-信息内容的获取"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="内容安全-信息内容的获取"/></a><div class="content"><a class="title" href="/2023/03/15/%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8-%E4%BF%A1%E6%81%AF%E5%86%85%E5%AE%B9%E7%9A%84%E8%8E%B7%E5%8F%96/" title="内容安全-信息内容的获取">内容安全-信息内容的获取</a><time datetime="2023-03-15T14:15:58.571Z" title="发表于 2023-03-15 22:15:58">2023-03-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/10/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0/" title="系统安全复习"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="系统安全复习"/></a><div class="content"><a class="title" href="/2023/03/10/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0/" title="系统安全复习">系统安全复习</a><time datetime="2023-03-10T13:37:04.148Z" title="发表于 2023-03-10 21:37:04">2023-03-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E4%BF%A1%E6%81%AF%E4%BE%A6%E5%AF%9F/" title="网络安全技术--信息侦察"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网络安全技术--信息侦察"/></a><div class="content"><a class="title" href="/2023/03/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E4%BF%A1%E6%81%AF%E4%BE%A6%E5%AF%9F/" title="网络安全技术--信息侦察">网络安全技术--信息侦察</a><time datetime="2023-03-10T13:36:09.134Z" title="发表于 2023-03-10 21:36:09">2023-03-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/" title="网络安全技术--攻与防"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网络安全技术--攻与防"/></a><div class="content"><a class="title" href="/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/" title="网络安全技术--攻与防">网络安全技术--攻与防</a><time datetime="2023-02-26T09:16:04.607Z" title="发表于 2023-02-26 17:16:04">2023-02-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86/" title="从零开始的计网学习-链路层习题整理"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back9_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始的计网学习-链路层习题整理"/></a><div class="content"><a class="title" href="/2023/01/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%AE%A1%E7%BD%91%E5%AD%A6%E4%B9%A0-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B9%A0%E9%A2%98%E6%95%B4%E7%90%86/" title="从零开始的计网学习-链路层习题整理">从零开始的计网学习-链路层习题整理</a><time datetime="2023-01-10T15:09:20.847Z" title="发表于 2023-01-10 23:09:20">2023-01-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back7_compressed.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Qidangge</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">与人同行，相约共进</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="来了,就,不要,走了,！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
