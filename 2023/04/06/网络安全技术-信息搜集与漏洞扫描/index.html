@@ -1,0 +1,708 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>信息搜集与漏洞扫描 | Qidangge的小小世界</title><meta name="keywords" content="信息安全,网络安全技术"><meta name="author" content="Qidangge"><meta name="copyright" content="Qidangge"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本篇文章为实践记录类型，记录网络安全技术中有关信息搜集和漏洞扫描的一些内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="信息搜集与漏洞扫描">
+<meta property="og:url" content="https://qidangge.github.io/2023/04/06/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86%E4%B8%8E%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F/index.html">
+<meta property="og:site_name" content="Qidangge的小小世界">
+<meta property="og:description" content="本篇文章为实践记录类型，记录网络安全技术中有关信息搜集和漏洞扫描的一些内容。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg">
+<meta property="article:published_time" content="2023-04-06T11:36:43.188Z">
+<meta property="article:modified_time" content="2023-04-06T11:37:08.279Z">
+<meta property="article:author" content="Qidangge">
+<meta property="article:tag" content="信息安全">
+<meta property="article:tag" content="网络安全技术">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://qidangge.github.io/2023/04/06/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86%E4%B8%8E%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Qidangge","link":"链接: ","source":"来源: Qidangge的小小世界","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '信息搜集与漏洞扫描',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-06 19:37:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">80</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">88</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Qidangge的小小世界</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">信息搜集与漏洞扫描</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-06T11:36:43.188Z" title="发表于 2023-04-06 19:36:43">2023-04-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-06T11:37:08.279Z" title="更新于 2023-04-06 19:37:08">2023-04-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%93%E4%B8%9A%E5%9F%BA%E7%A1%80/">专业基础</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%93%E4%B8%9A%E5%9F%BA%E7%A1%80/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/">网络安全技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="信息搜集与漏洞扫描"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p><strong>写在最前面</strong>：本次实践的主要内容包括 主机存活探测、端口扫描、scapy编程、漏洞扫描等，每种内容涉及一种或几种技术。<br><strong>记录只是形式，学会才是目的</strong>！</p>
+</blockquote>
+<p>下面是大纲：</p>
+<ul>
+<li><a href="#%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B">主机探测</a><ul>
+<li><a href="#ping%E4%B8%8Ettl">ping与TTL</a><ul>
+<li><a href="#%E5%AE%9E%E8%B7%B5%E8%BF%87%E7%A8%8B">实践过程</a></li>
+<li><a href="#%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85">知识补充</a></li>
+</ul>
+</li>
+<li><a href="#arping%E4%BD%BF%E7%94%A8">arping使用</a><ul>
+<li><a href="#%E5%AE%9E%E8%B7%B5%E8%BF%87%E7%A8%8B">实践过程</a></li>
+<li><a href="#arping%E6%8C%87%E4%BB%A4%E6%89%A9%E5%B1%95">arping指令扩展</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F">端口扫描</a><ul>
+<li><a href="#%E5%AE%9E%E8%B7%B5%E8%BF%87%E7%A8%8B">实践过程</a></li>
+<li><a href="#nmap%E6%8C%87%E4%BB%A4%E6%89%A9%E5%B1%95">nmap指令扩展</a></li>
+</ul>
+</li>
+<li><a href="#scapy%E7%BC%96%E7%A8%8B">scapy编程</a><ul>
+<li><a href="#%E5%AE%9E%E8%B7%B5%E8%BF%87%E7%A8%8B">实践过程</a></li>
+<li><a href="#scapy%E6%89%A9%E5%B1%95">scapy扩展</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="主机探测"><a href="#主机探测" class="headerlink" title="主机探测"></a>主机探测</h1><h2 id="ping与TTL"><a href="#ping与TTL" class="headerlink" title="ping与TTL"></a>ping与TTL</h2><h3 id="实践过程"><a href="#实践过程" class="headerlink" title="实践过程"></a>实践过程</h3><blockquote>
+<p><strong>实践要求</strong>：主机A开启命令行，对B进行ping探测，根据B的回复，可以确定主机A和B的连通情况，还可以根据回复数据包的TTL值对操作系统进行猜测。</p>
+</blockquote>
+<p>下面是<strong>具体的实施过程</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680778312520.png"></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680778328290.png"></p>
+<p>如上图所示，在未开启防火墙的情况下主机A对主机B进行ping扫描，得到返回信息。</p>
+<p>回复数据包的TTL值：   <code>64</code>     ，B运行的操作系统可能为：   <code>LINUX</code>    。</p>
+<h3 id="知识补充"><a href="#知识补充" class="headerlink" title="知识补充"></a>知识补充</h3><ol>
+<li><strong>Kali Linux 防火墙指令</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Apt-get install ufw</td>
+<td>安装防火墙</td>
+</tr>
+<tr>
+<td>Systemctl status ufw</td>
+<td>查看防火墙状态</td>
+</tr>
+<tr>
+<td>Ufw disable</td>
+<td>关闭防火墙</td>
+</tr>
+<tr>
+<td>Ufw enable</td>
+<td>开启防火墙</td>
+</tr>
+<tr>
+<td>Ufw status</td>
+<td>查看防火墙开启情况</td>
+</tr>
+<tr>
+<td>Ufw version</td>
+<td>查看防火墙版本</td>
+</tr>
+<tr>
+<td>Ufw default deny</td>
+<td>拒绝所有服务</td>
+</tr>
+<tr>
+<td>Ufw default allow</td>
+<td>允许所有服务</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li><strong>TTL与系统类型判断</strong></li>
+</ol>
+<p><code>TTL（Time To Live，生存时间）</code>是IP协议包中的一个值，当我们使用Ping命令进行网络连通测试或者是测试网速的时候，本地计算机会向目的主机发送数据包，但是有的数据包会因为一些特殊的原因不能正常传送到目的主机，如果没有设置TTL值的话，数据包会一直在网络上面传送，浪费网络资源。数据包在传送的时候至少会经过一个以上的路由器，<strong>当数据包经过一个路由器的时候，TTL就会自动减1，如果减到0了还是没有传送到目的主机，那么这个数据包就会自动丢失</strong>，这时路由器会发送一个ICMP报文给最初的发送者。<br>不同的操作系统的默认TTL值是不同的， 所以我们<strong>可以通过TTL值来判断主机的操作系统</strong>，但是当用户修改了TTL值的时候，就会误导我们的判断，所以这种判断方式也不一定准确。</p>
+<p><strong>注</strong>：通过TTL判断操作系统类型是十分不准确的，需要使用更加可靠和精准的方法，比如使用指纹识别技术或者其他的技术手段。这些方法可以通过分析网络协议、使用的服务、传输的数据包结构等来确定操作系统类型。</p>
+<ol start="3">
+<li><strong>设置防火墙以避免Ping扫描</strong></li>
+</ol>
+<p>可以使用Kali Linux自带的防火墙工具ufw来防御ping扫描。ufw是一种简单的防火墙工具，它允许在Linux上轻松配置防火墙规则。ufw默认情况下已经安装在Kali Linux中，您可以使用以下命令启用它：<code>sudo ufw enable</code>。然后，您可以使用以下命令来阻止ping扫描：<code>sudo ufw deny icmp</code>。这将禁止所有ICMP流量，包括ping扫描。</p>
+<h2 id="arping使用"><a href="#arping使用" class="headerlink" title="arping使用"></a>arping使用</h2><h3 id="实践过程-1"><a href="#实践过程-1" class="headerlink" title="实践过程"></a>实践过程</h3><blockquote>
+<p> arping是一个在LAN中<strong>使用ARP地址解析协议发现目标主机的工具</strong>。arping工具测试特定IP地址在网络中是否在线。该命令只能在本地局域网内运行，无法跨越路由器和网关，常用的选项为arping -c。Wireshark抓包分析该工具的工作原理。</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680779156049.png"></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680779168906.png"></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680779188634.png"></p>
+<p>如图所示，通过wirshark抓包，可以得到arping指令下的网络数据包情况。通过分析具体的协议字段可以看出：这个工具<strong>通过广播的方式发送ARP请求报文</strong>。当探测主机（192.168.72.129）接收到ARP请求包后会向报文中的目的地址<strong>发送ARP响应报文</strong>。<br><strong>综上所述</strong>：arping命令是一个用于测试和管理局域网的工具，它可以通过向本网段下所有主机发起arp请求，然后看收到响应的消息的mac地址是否是我们需要的mac地址，如果是，那么这个ip就是该网卡绑定的ip了。同时如何收到响应包也就说明该主机存活。</p>
+<blockquote>
+<p>分析并回答：<strong>在同一子网中判断目标主机存活性，ping和arping谁更具优势？</strong><br>当需要在同一子网中确定主机是否存活时，使用arping命令有以下优势：</p>
+</blockquote>
+<ul>
+<li><strong>更快的响应时间</strong>：在同一子网中，目标主机的MAC地址可以从ARP缓存中获取，而无需使用IP地址进行寻址。因此，arping命令可以直接向目标主机发送ARP请求，并根据目标主机是否响应来判断其是否存活。相比之下，ping命令需要发送ICMP数据包并等待回复，这可能会花费更多的时间，并且目标主机可能会过滤掉ICMP数据包。</li>
+<li><strong>不会被目标主机屏蔽</strong>：一些主机可能会过滤掉ICMP数据包，从而使ping命令无法检测到其存活状态。相比之下，arping命令发送的是ARP请求，不会被目标主机屏蔽。</li>
+<li>更精确的诊断：在一些网络环境下，目标主机的ICMP回复可能会被路由器或防火墙拦截，从而导致ping命令误判目标主机的状态。而arping命令只与目标主机进行通信，因此能够提供更精确的诊断结果。</li>
+<li><strong>可以检测到MAC地址变更</strong>：如果目标主机的MAC地址发生变化，arping命令可以检测到这一变化，并更新本地ARP缓存中的MAC地址。而ping命令无法检测到MAC地址的变更，因为它只依赖IP地址进行通信。</li>
+</ul>
+<p>综上所述，当需要在同一子网中快速确定主机是否存活时，arping命令是一种更可靠、更精确、更快速的工具。</p>
+<h3 id="arping指令扩展"><a href="#arping指令扩展" class="headerlink" title="arping指令扩展"></a>arping指令扩展</h3><p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680779337097.png"></p>
+<p><strong>参数释义：</strong></p>
+<table>
+<thead>
+<tr>
+<th>-A：</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>与-U参数类似，但是使用的是ARP REPLY包而非ARP REQUEST包。</td>
+</tr>
+<tr>
+<td>-b：</td>
+</tr>
+<tr>
+<td>发送以太网广播帧，arping在开始时使用广播地址，在收到回复后使用unicast单播地址。</td>
+</tr>
+<tr>
+<td>-c：</td>
+</tr>
+<tr>
+<td>发送指定的count个ARP REQUEST包后停止。如果指定了-w参数，则会等待相同数量的ARP REPLY包，直到超时为止。</td>
+</tr>
+<tr>
+<td>-D：</td>
+</tr>
+<tr>
+<td>重复地址探测模式，即，Duplicate address detection mode (DAD)，用来检测有没有IP地址冲突，如果没有IP冲突则返回0。</td>
+</tr>
+<tr>
+<td>-f：</td>
+</tr>
+<tr>
+<td>收到第一个响应包后退出。</td>
+</tr>
+<tr>
+<td>-h：</td>
+</tr>
+<tr>
+<td>显示帮助页。</td>
+</tr>
+<tr>
+<td>-I：</td>
+</tr>
+<tr>
+<td>用来发送ARP REQUEST包的网络设备的名称。</td>
+</tr>
+<tr>
+<td>-q：</td>
+</tr>
+<tr>
+<td>quite模式，不显示输出。</td>
+</tr>
+<tr>
+<td>-U：</td>
+</tr>
+<tr>
+<td>无理由的（强制的）ARP模式去更新别的主机上的ARP CACHE列表中的本机的信息，不需要响应。</td>
+</tr>
+<tr>
+<td>-V：</td>
+</tr>
+<tr>
+<td>显示arping的版本号。</td>
+</tr>
+<tr>
+<td>-w：</td>
+</tr>
+<tr>
+<td>指定一个超时时间，单位为秒，arping在到达指定时间后退出，无论期间发送或接收了多少包。在这种情况下，arping在发送完指定的count（-c）个包后并不会停止，而是等待到超时或发送的count个包都进行了回应后才会退出。</td>
+</tr>
+<tr>
+<td>-s：设置发送ARP包的IP资源地址，如果为空，则按如下方式处理：</td>
+</tr>
+<tr>
+<td>1、DAD模式（-D）设置为0.0.0.0；</td>
+</tr>
+<tr>
+<td>2、Unsolicited模式（-U）设置为目标地址；</td>
+</tr>
+<tr>
+<td>3、其它方式，从路由表计算。</td>
+</tr>
+</tbody></table>
+<p><strong>操作实例：</strong></p>
+<ul>
+<li>用于检验目标主机是否存活：<code>arping 192.168.72.129 -c 1</code></li>
+<li>查看某个IP是否被不同的MAC占用: <code>arping -d 192.168.72.159</code></li>
+</ul>
+<h1 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h1><p>这里进行端口扫描使用的工具是nmap，这是一个功能强大的扫描工具。</p>
+<h2 id="实践过程-2"><a href="#实践过程-2" class="headerlink" title="实践过程"></a>实践过程</h2><blockquote>
+<p><strong>对活动主机进行端口扫描</strong></p>
+</blockquote>
+<p>主机A使用Nmap工具对主机B进行TCP端口同步扫描（范围1-150）：<br>Nmap命令：<code>nmap -sS -p 1-150 192.168.72.129</code></p>
+<ul>
+<li>补充1：-sS 表示<strong>TCP SYN扫描</strong></li>
+<li>补充2：<strong>TCP端口同步扫描就是TCP SYN扫描</strong>。它是一种半开放扫描，通过向目标服务器的端口发送一个请求连接的SYN包，如果目标端口开放，则服务器会向扫描器返回一个SYN/ACK包，否则会返回一个RST包。</li>
+</ul>
+<blockquote>
+<p><strong>对主机B进行UDP端口扫描（</strong>范围是110-140）：</p>
+</blockquote>
+<p>Nmap命令： <code>nmap -sU -p 110-140 192.168.72.129</code></p>
+<ul>
+<li><strong>补充</strong>：-sU表示扫描UDP端口，-p:指定端口范围</li>
+</ul>
+<blockquote>
+<p><strong>对活动主机操作系统进行探测</strong></p>
+</blockquote>
+<p>主机A对主机B进行TCP/IP指纹特征扫描:<br>Nmap命令：<code>nmap -O 192.168.72.129</code></p>
+<blockquote>
+<p><strong>对活动主机运行服务进行探测</strong></p>
+</blockquote>
+<p>Nmap命令：<code>nmap -sV 192.168.72.129</code></p>
+<blockquote>
+<p>主机A使用Nmap命令对主机B进行<strong>IP协议探测</strong>：</p>
+</blockquote>
+<p>Nmap命令：<code>nmap -sO 192.168.72.129</code></p>
+<h2 id="nmap指令扩展"><a href="#nmap指令扩展" class="headerlink" title="nmap指令扩展"></a>nmap指令扩展</h2><table>
+<thead>
+<tr>
+<th>参数(区分大小写)</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-sT</td>
+<td>TCP connect()扫描，这种方式会在目标主机的日志中记录大批连接请求和错误信息。</td>
+</tr>
+<tr>
+<td>-sS</td>
+<td>半开扫描，很少有系统能把它记入系统日志。不过，需要Root权限。</td>
+</tr>
+<tr>
+<td>-sF  -sN</td>
+<td>秘密FIN数据包扫描、Xmas Tree、Null扫描模式</td>
+</tr>
+<tr>
+<td>-sP</td>
+<td>ping扫描，Nmap在扫描端口时，默认都会使用ping扫描，只有主机存活，Nmap才会继续扫描。</td>
+</tr>
+<tr>
+<td>-sU</td>
+<td>UDP扫描，但UDP扫描是不可靠的</td>
+</tr>
+<tr>
+<td>-sA</td>
+<td>这项高级的扫描方法通常用来穿过防火墙的规则集</td>
+</tr>
+<tr>
+<td>-sV</td>
+<td>探测端口服务版本</td>
+</tr>
+<tr>
+<td>-Pn</td>
+<td>扫描之前不需要用ping命令，有些防火墙禁止ping命令。可以使用此选项进行扫描</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示扫描过程，推荐使用</td>
+</tr>
+<tr>
+<td>-h</td>
+<td>帮助选项，是最清楚的帮助文档</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>指定端口，如“1-65535、1433、135、22、80”等</td>
+</tr>
+<tr>
+<td>-O</td>
+<td>启用远程操作系统检测，存在误报</td>
+</tr>
+<tr>
+<td>-A</td>
+<td>全面系统检测、启用脚本检测、扫描等</td>
+</tr>
+<tr>
+<td>-oN/-oX/-oG</td>
+<td>将报告写入文件，分别是正常、XML、grepable 三种格式</td>
+</tr>
+<tr>
+<td>-T4</td>
+<td>针对TCP端口禁止动态扫描延迟超过10ms</td>
+</tr>
+<tr>
+<td>-iL</td>
+<td>读取主机列表，例如，“-iL C:\ip.txt”</td>
+</tr>
+</tbody></table>
+<p>Nmap使用时的<strong>注意事项</strong>：</p>
+<ul>
+<li>nmap扫描会产生大量的网络流量，可能会影响网络性能。</li>
+<li>nmap扫描可能会被防火墙或入侵检测系统检测到，因此需要谨慎使用。</li>
+<li>nmap扫描可能会被误认为是攻击行为，因此需要获得授权后再使用。</li>
+<li>nmap扫描可能会泄露网络拓扑结构和主机信息，因此需要谨慎使用</li>
+</ul>
+<h1 id="scapy编程"><a href="#scapy编程" class="headerlink" title="scapy编程"></a>scapy编程</h1><p>Scapy是Python中<strong>构造网络数据包的模块</strong>，它可以完成绝大多数工具所能完成的功能，例如：扫描，网络发现，跟踪路由，探测，攻击等。</p>
+<h2 id="实践过程-3"><a href="#实践过程-3" class="headerlink" title="实践过程"></a>实践过程</h2><p><code>send、sendp、sr、sr1</code> 发送数据包函数使用。可以通过python导入此库也可以在命令行直接输入指令。</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680779974688.png"></p>
+<blockquote>
+<p><strong>send函数</strong>工作在第三层，只发送数据包:</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680780010120.png"></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680780018263.png"></p>
+<blockquote>
+<p><strong>sendp函数</strong>工作在第二层，只发送数据包:</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680780048958.png"></p>
+<blockquote>
+<p><strong>sr()函数</strong>用来发送数据包和接收响应:</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680780075374.png"></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680780084105.png"></p>
+<blockquote>
+<p>构造数据包来实现<strong>TCP SYN端口扫描</strong>：</p>
+</blockquote>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680780133940.png"></p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680780144735.png"></p>
+<blockquote>
+<p><strong>模拟三次握手实现TCP连接</strong>:</p>
+</blockquote>
+<p><strong>注</strong>：<a target="_blank" rel="noopener" href="https://www.osgeo.cn/scapy/usage.html#syn-scans">官方文档有这个实例</a></p>
+<p><strong>代码如下</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680780176675.png"></p>
+<p><strong>运行效果</strong>：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680780196894.png"></p>
+<p><strong>注意事项</strong>：</p>
+<ol>
+<li>要理清三次握手是seq与ack值的变化，ack的值是seq+1,也是期望收到的下一个包的seq值。seq随机生成初始值，而后在之后的发送中递增1</li>
+<li>进行三次握手要保证目标机器开启了Apache服务，win下通过phpstudy开启，kali可以通过指令开启：<code>service apache2 start</code></li>
+<li>如果用于测试的主机为LINUX，需要关闭RST：<code>iptables -A OUTPUT -p tcp --tcp-flags RST RST -j DROP</code></li>
+</ol>
+<h2 id="scapy扩展"><a href="#scapy扩展" class="headerlink" title="scapy扩展"></a>scapy扩展</h2><p>一定要看<strong>官方文档</strong>：<a target="_blank" rel="noopener" href="https://www.osgeo.cn/scapy/introduction.html">https://www.osgeo.cn/scapy/introduction.html</a></p>
+<p>这里主要就<strong>上述使用到的知识</strong>进行扩展：</p>
+<blockquote>
+<p> <strong>数据包构造</strong>：</p>
+</blockquote>
+<p>    Scapy数据包的创建与网络中的分层方法一致。<br>    数据包的基本构建块是一层，而整个数据包则是通过将各个层堆叠在一起而构建的。<br>    scapy通过在TCP / IP的不同层上为每个协议定义数据包头，然后按顺序堆叠这些层，来构造数据包。</p>
+<p>可以通过<strong>show</strong>显示详细的包头：</p>
+<p><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1680780697670.png"></p>
+<blockquote>
+<p><strong>send函数</strong>：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>scapy.sendrecv.send(x, iface=None,**kargs)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>功能：在第三层发送数据包</td>
+</tr>
+<tr>
+<td>参数：</td>
+</tr>
+<tr>
+<td>x – 数据包</td>
+</tr>
+<tr>
+<td>inter – 两个数据包之间的时间（以秒为单位）（默认值为0）</td>
+</tr>
+<tr>
+<td>loop – send packet indefinitely (default 0)</td>
+</tr>
+<tr>
+<td>count – 要发送的数据包数（默认无=1）</td>
+</tr>
+<tr>
+<td>verbose – 详细模式（默认无=conf.详细)</td>
+</tr>
+<tr>
+<td>realtime – 在发送下一个包之前，请检查是否已发送了一个包</td>
+</tr>
+<tr>
+<td>return_packets – 返回发送的数据包</td>
+</tr>
+<tr>
+<td>socket – 要使用的套接字（默认为conf.L3socket（kargs））</td>
+</tr>
+<tr>
+<td>iface – 发送数据包的接口</td>
+</tr>
+<tr>
+<td>monitor – （不在linux上）以监视模式发送</td>
+</tr>
+<tr>
+<td>返回值：无</td>
+</tr>
+<tr>
+<td>源代码链接：<a target="_blank" rel="noopener" href="https://www.osgeo.cn/scapy/api/scapy.sendrecv.html#scapy.sendrecv.send">https://www.osgeo.cn/scapy/api/scapy.sendrecv.html#scapy.sendrecv.send</a></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>sendp函数</strong>：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>scapy.sendrecv.sendp(x, iface=None, iface_hint=None, socket=None, **kargs)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>功能：在第二层发送数据包</td>
+</tr>
+<tr>
+<td>参数：</td>
+</tr>
+<tr>
+<td>x – 数据包</td>
+</tr>
+<tr>
+<td>inter – 两个数据包之间的时间（以秒为单位）（默认值为0）</td>
+</tr>
+<tr>
+<td>loop – send packet indefinitely (default 0)</td>
+</tr>
+<tr>
+<td>count – 要发送的数据包数（默认无=1）</td>
+</tr>
+<tr>
+<td>verbose – 详细模式（默认无=conf.详细)</td>
+</tr>
+<tr>
+<td>realtime – 在发送下一个包之前，请检查是否已发送了一个包</td>
+</tr>
+<tr>
+<td>return_packets – 返回发送的数据包</td>
+</tr>
+<tr>
+<td>socket – 要使用的套接字（默认为conf.L3socket（kargs））</td>
+</tr>
+<tr>
+<td>iface – 发送数据包的接口</td>
+</tr>
+<tr>
+<td>monitor – （不在linux上）以监视模式发送</td>
+</tr>
+<tr>
+<td>返回值：无</td>
+</tr>
+<tr>
+<td>源代码：<a target="_blank" rel="noopener" href="https://github.com/secdev/scapy/blob/master/scapy/sendrecv.py#L443-L474">https://github.com/secdev/scapy/blob/master/scapy/sendrecv.py#L443-L474</a></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>sr函数</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>scapy.sendrecv.sr(x, promisc=None, filter=None, iface=None, nofilter=0, *args, **kargs)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>功能：在第三层发送和接收数据包</td>
+</tr>
+<tr>
+<td>参数：</td>
+</tr>
+<tr>
+<td>pks – 发送/接收数据包的SuperSocket实例</td>
+</tr>
+<tr>
+<td>pkt – 要发送的数据包</td>
+</tr>
+<tr>
+<td>rcv_pks – 如果设置，则将使用而不是pks来接收数据包。数据包仍将通过pks发送</td>
+</tr>
+<tr>
+<td>nofilter – 输入1以避免使用BPF过滤器</td>
+</tr>
+<tr>
+<td>retry – 如果为正数，则重发未应答数据包的次数（如果为负数），当没有更多的数据包被应答时重试多少次</td>
+</tr>
+<tr>
+<td>timeout – 最后一个数据包发送后要等待多长时间</td>
+</tr>
+<tr>
+<td>verbose – 设置详细级别</td>
+</tr>
+<tr>
+<td>multi – 是否接受同一刺激的多个答案</td>
+</tr>
+<tr>
+<td>prebuild – 在开始发送数据包之前，先预构建这些包。当发电机作为数据包传递时自动启用</td>
+</tr>
+<tr>
+<td>sr（）返回两个列表，第一个列表包含响应的，第二个列表包含未响应的</td>
+</tr>
+<tr>
+<td>源代码：<a target="_blank" rel="noopener" href="https://github.com/secdev/scapy/blob/master/scapy/sendrecv.py#L606-L623">https://github.com/secdev/scapy/blob/master/scapy/sendrecv.py#L606-L623</a></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>sr1函数</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>scapy.sendrecv.sr1(x, promisc=None, filter=None, iface=None, nofilter=0, *args, **kargs)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>功能：在第三层发送和接收数据包，只返回一个答案</td>
+</tr>
+<tr>
+<td>参数：</td>
+</tr>
+<tr>
+<td>pks – 发送/接收数据包的SuperSocket实例</td>
+</tr>
+<tr>
+<td>pkt – 要发送的数据包</td>
+</tr>
+<tr>
+<td>rcv_pks – 如果设置，则将使用而不是pks来接收数据包。数据包仍将通过pks发送</td>
+</tr>
+<tr>
+<td>nofilter – 输入1以避免使用BPF过滤器</td>
+</tr>
+<tr>
+<td>retry – 如果为正数，则重发未应答数据包的次数（如果为负数），当没有更多的数据包被应答时重试多少次</td>
+</tr>
+<tr>
+<td>timeout – 最后一个数据包发送后要等待多长时间</td>
+</tr>
+<tr>
+<td>verbose – 设置详细级别</td>
+</tr>
+<tr>
+<td>multi – 是否接受同一刺激的多个答案</td>
+</tr>
+<tr>
+<td>prebuild – 在开始发送数据包之前，先预构建这些包。当发电机作为数据包传递时自动启用</td>
+</tr>
+<tr>
+<td>sr（）返回一个列表，列表包含响应的</td>
+</tr>
+<tr>
+<td>源代码：<a target="_blank" rel="noopener" href="https://github.com/secdev/scapy/blob/master/scapy/sendrecv.py#L606-L623">https://github.com/secdev/scapy/blob/master/scapy/sendrecv.py#L606-L623</a></td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Qidangge</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qidangge.github.io/2023/04/06/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86%E4%B8%8E%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F/">https://qidangge.github.io/2023/04/06/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86%E4%B8%8E%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qidangge.github.io" target="_blank">Qidangge的小小世界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/">信息安全</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/">网络安全技术</a></div><div class="post_share"><div class="social-share" data-image="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/11/iptables%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/"><img class="prev-cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">iptables指令详解</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/30/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95/"><img class="next-cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">机器学习算法之支持向量机算法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/11/%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8--%E7%BD%91%E7%BB%9C%E5%A4%9A%E5%AA%92%E4%BD%93%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8/" title="内容安全--网络多媒体内容安全"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back9_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-11</div><div class="title">内容安全--网络多媒体内容安全</div></div></a></div><div><a href="/2022/09/06/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A80--%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/" title="系统安全0--信息系统安全框架"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-06</div><div class="title">系统安全0--信息系统安全框架</div></div></a></div><div><a href="/2022/09/24/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A81--%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E5%A8%81%E8%83%81/" title="系统安全1--信息系统安全威胁"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back9_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-24</div><div class="title">系统安全1--信息系统安全威胁</div></div></a></div><div><a href="/2023/03/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E4%BF%A1%E6%81%AF%E4%BE%A6%E5%AF%9F/" title="网络安全技术--信息侦察"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-10</div><div class="title">网络安全技术--信息侦察</div></div></a></div><div><a href="/2023/02/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF--%E6%94%BB%E4%B8%8E%E9%98%B2/" title="网络安全技术--攻与防"><img class="cover" src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-26</div><div class="title">网络安全技术--攻与防</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Qidangge</div><div class="author-info__description">欢迎来访</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">80</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">88</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Qidangge"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Qidangge" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">记录生活与收获！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B"><span class="toc-number">1.</span> <span class="toc-text">主机探测</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ping%E4%B8%8ETTL"><span class="toc-number">1.1.</span> <span class="toc-text">ping与TTL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">实践过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85"><span class="toc-number">1.1.2.</span> <span class="toc-text">知识补充</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#arping%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">arping使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E8%BF%87%E7%A8%8B-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">实践过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#arping%E6%8C%87%E4%BB%A4%E6%89%A9%E5%B1%95"><span class="toc-number">1.2.2.</span> <span class="toc-text">arping指令扩展</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">2.</span> <span class="toc-text">端口扫描</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E8%BF%87%E7%A8%8B-2"><span class="toc-number">2.1.</span> <span class="toc-text">实践过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nmap%E6%8C%87%E4%BB%A4%E6%89%A9%E5%B1%95"><span class="toc-number">2.2.</span> <span class="toc-text">nmap指令扩展</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#scapy%E7%BC%96%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">scapy编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E8%BF%87%E7%A8%8B-3"><span class="toc-number">3.1.</span> <span class="toc-text">实践过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#scapy%E6%89%A9%E5%B1%95"><span class="toc-number">3.2.</span> <span class="toc-text">scapy扩展</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/04/11/%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8--%E7%BD%91%E7%BB%9C%E5%A4%9A%E5%AA%92%E4%BD%93%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8/" title="内容安全--网络多媒体内容安全"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back9_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="内容安全--网络多媒体内容安全"/></a><div class="content"><a class="title" href="/2023/04/11/%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8--%E7%BD%91%E7%BB%9C%E5%A4%9A%E5%AA%92%E4%BD%93%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8/" title="内容安全--网络多媒体内容安全">内容安全--网络多媒体内容安全</a><time datetime="2023-04-10T17:31:14.001Z" title="发表于 2023-04-11 01:31:14">2023-04-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/11/iptables%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/" title="iptables指令详解"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back8_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="iptables指令详解"/></a><div class="content"><a class="title" href="/2023/04/11/iptables%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/" title="iptables指令详解">iptables指令详解</a><time datetime="2023-04-10T17:31:13.986Z" title="发表于 2023-04-11 01:31:13">2023-04-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/06/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86%E4%B8%8E%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F/" title="信息搜集与漏洞扫描"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="信息搜集与漏洞扫描"/></a><div class="content"><a class="title" href="/2023/04/06/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86%E4%B8%8E%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F/" title="信息搜集与漏洞扫描">信息搜集与漏洞扫描</a><time datetime="2023-04-06T11:36:43.188Z" title="发表于 2023-04-06 19:36:43">2023-04-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/30/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95/" title="机器学习算法之支持向量机算法"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="机器学习算法之支持向量机算法"/></a><div class="content"><a class="title" href="/2023/03/30/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95/" title="机器学习算法之支持向量机算法">机器学习算法之支持向量机算法</a><time datetime="2023-03-30T10:06:24.605Z" title="发表于 2023-03-30 18:06:24">2023-03-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/15/%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8-%E4%BF%A1%E6%81%AF%E5%86%85%E5%AE%B9%E7%9A%84%E8%8E%B7%E5%8F%96/" title="内容安全-信息内容的获取"><img src="https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="内容安全-信息内容的获取"/></a><div class="content"><a class="title" href="/2023/03/15/%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8-%E4%BF%A1%E6%81%AF%E5%86%85%E5%AE%B9%E7%9A%84%E8%8E%B7%E5%8F%96/" title="内容安全-信息内容的获取">内容安全-信息内容的获取</a><time datetime="2023-03-15T14:15:58.571Z" title="发表于 2023-03-15 22:15:58">2023-03-15</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://images-blogs-1310566801.cos.ap-guangzhou.myqcloud.com/%E5%B0%81%E9%9D%A2/back6_compressed.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Qidangge</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">与人同行，相约共进</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="来了,就,不要,走了,！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
